@@ -10,9 +10,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
-/**
- * User: pszczerbicki
- */
+
 public class AppInit implements WebApplicationInitializer {
 
     @Override
@@ -21,7 +19,7 @@ public class AppInit implements WebApplicationInitializer {
         servletContext.addListener(new ContextLoaderListener(context));
         ServletRegistration.Dynamic dispatcher = servletContext.addServlet(DispatcherServlet.class.getSimpleName(), new DispatcherServlet(context));
         dispatcher.setLoadOnStartup(1);
-        dispatcher.addMapping("/");
+        dispatcher.addMapping("/*");
     }
 
     private AnnotationConfigWebApplicationContext getContext() {
