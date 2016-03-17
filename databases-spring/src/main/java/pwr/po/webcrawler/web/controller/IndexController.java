@@ -13,13 +13,12 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 public class IndexController {
 
     @Autowired
-    private UserService service;
+    private UserService userService;
 
     @RequestMapping(value = "/", method = GET)
     @ResponseBody
     public String index() {
-        service.save(new User("userName","userFirstName","LastName"));
-        return "<b>Hello fdfdsfds</b>";
+         return "<b>Strona domowa</b>";
     }
 
 

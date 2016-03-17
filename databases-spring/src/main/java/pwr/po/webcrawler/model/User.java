@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -18,14 +19,32 @@ public class User implements Serializable{
 
     private String username;
 
-    private String name;
+    private String firstName;
 
-    private String surname;
+    private String lastName;
 
-    public User(String username, String name, String surname) {
+    private String profileImage;
+
+    private String email;
+
+    private String password;
+
+    private Date registrationDate;
+
+    @OneToOne
+    @JoinColumn(name="preferences_id")
+    private Preferences preferences;
+
+    public User(String username, String firstName, String lastName) {
         this.username = username;
-        this.name = name;
-        this.surname = surname;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public User(Long id ,String username, String firstName, String lastName) {
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public User() {
