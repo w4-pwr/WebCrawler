@@ -1,8 +1,8 @@
-package pwr.po.webcrawler.repository;
+package pwr.po.webcrawler.repository.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pwr.po.webcrawler.model.User;
+import pwr.po.webcrawler.model.user.User;
 
 import java.util.List;
 

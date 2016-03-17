@@ -1,12 +1,10 @@
-package pwr.po.webcrawler.service;
+package pwr.po.webcrawler.service.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pwr.po.webcrawler.model.Preferences;
-import pwr.po.webcrawler.model.User;
-import pwr.po.webcrawler.repository.PreferencesRepository;
-import pwr.po.webcrawler.repository.UserRepository;
+import pwr.po.webcrawler.model.user.User;
+import pwr.po.webcrawler.repository.user.UserRepository;
 
 import java.util.List;
 
@@ -39,5 +37,9 @@ public class UserService {
     @Transactional
     public void deleteUser(long id) {
         userRepository.deleteById(id);
+    }
+
+    public String getRoleByUsername(String name) {
+        return userRepository.findByUsername(name).getRole();
     }
 }
