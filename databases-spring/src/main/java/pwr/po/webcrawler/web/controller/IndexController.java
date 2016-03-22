@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import pwr.po.webcrawler.model.User;
+import pwr.po.webcrawler.model.CurrentUser;
 import pwr.po.webcrawler.service.UserService;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -18,7 +18,7 @@ public class IndexController {
     @RequestMapping(value = "/", method = GET)
     @ResponseBody
     public String index() {
-        service.save(new User("userName","userFirstName","LastName"));
+        service.save(new CurrentUser("userName","userFirstName","LastName"));
         return "<b>Hello fdfdsfds</b>";
     }
 
