@@ -1,10 +1,7 @@
 package pwr.po.webcrawler.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pwr.po.webcrawler.model.user.User;
 import pwr.po.webcrawler.service.user.UserService;
 
@@ -34,9 +31,19 @@ public class UserController{
     }
 
     //FIXME URI encoding on @ symbol
-    @RequestMapping(value="save/{username}/{firstName}/{lastName}/{password}/{email}")
-    public long saveUser(@PathVariable String username, @PathVariable String firstName,@PathVariable String lastName, @PathVariable String password, @PathVariable String email){
+    @RequestMapping(value="save")
+    public @ResponseBody long saveUser(@RequestParam("username") String username ,
+                         @RequestParam("firstName") String firstName,
+                         @RequestParam("lastName") String lastName,
+                         @RequestParam("password") String password,
+                         @RequestParam("matchPassword")String matchPassword,
+                         @RequestParam("email") String email){
+
         if(userService.getUser(username) != null){
+            return -1;
+        }
+        if(!password.equals(matchPassword))
+        {
             return -1;
         }
         User user = new User(username.toLowerCase(),firstName,lastName);
@@ -47,7 +54,6 @@ public class UserController{
         userService.save(user);
         return userService.getUser(username.toLowerCase()).getId();
     }
-
 
     @RequestMapping(value="delete/{id}")
     public String deleteUser(@PathVariable long id){
