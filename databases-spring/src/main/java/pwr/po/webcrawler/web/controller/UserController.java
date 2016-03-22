@@ -1,13 +1,10 @@
 package pwr.po.webcrawler.web.controller;
 
-import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import pwr.po.webcrawler.model.CurrentUser;
-import pwr.po.webcrawler.service.UserService;
 import pwr.po.webcrawler.model.user.User;
 import pwr.po.webcrawler.service.user.UserService;
 
@@ -46,7 +43,7 @@ public class UserController{
         user.setRegistrationDate(new Date());
         user.setPassword(password);//TODO BCrypt encoder
         user.setEmail(email);
-        user.setRole("ROLE_USER");
+        user.setRole(new String []{"ROLE_USER"});
         userService.save(user);
         return userService.getUser(username.toLowerCase()).getId();
     }

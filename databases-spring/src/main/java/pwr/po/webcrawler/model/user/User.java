@@ -1,21 +1,20 @@
 package pwr.po.webcrawler.model.user;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import lombok.Data;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import pwr.po.webcrawler.model.Preferences;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 
 @Entity
-@Getter
-@Setter
+@Data
 @Table(name = "users")
 public class User implements Serializable {
+
+    public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     @Id
     @Column(name = "user_id")
@@ -39,7 +38,7 @@ public class User implements Serializable {
     private String password;
 
     @Column(columnDefinition = "default : \"ROLE_USER\"")
-    private String role;
+    private String[] role;
 
     @Column(name = "registration_date")
     private Date registrationDate;
@@ -48,6 +47,11 @@ public class User implements Serializable {
     @OneToOne
     @JoinColumn(name = "preferences_id")
     private Preferences preferences;
+
+    public void setPassword(String password) {
+        this.password = PASSWORD_ENCODER.encode(password);
+    }
+
 
     public User(String username, String firstName, String lastName) {
         this.username = username;
