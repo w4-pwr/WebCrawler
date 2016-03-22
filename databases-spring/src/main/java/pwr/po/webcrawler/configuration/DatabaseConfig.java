@@ -14,9 +14,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-/**
- * Created by Rafal Pieniazek on 2016-03-15.
- */
+
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories("pwr.po.webcrawler")
@@ -24,11 +22,19 @@ public class DatabaseConfig {
 
     @Bean
     public DataSource dataSource() {
+        //TODO Properties - wyrzucić wszystkie adresy do osobnego pliku i odwoływać się tu
+     /*   DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres");
+        dataSource.setUsername("postgres");
+        dataSource.setPassword("admin");
+*/
+
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/webcrawler");
-        dataSource.setUsername("root");
-        dataSource.setPassword("");
+        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setUrl("jdbc:postgresql://ec2-54-228-246-206.eu-west-1.compute.amazonaws.com:5432/dabau342amt24s?&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory");
+        dataSource.setUsername("jnheqfbnlmxjmy");
+        dataSource.setPassword("AERYkjjbHNvIP_9ERFd7XSrMZj");
 
         return dataSource;
     }
@@ -45,7 +51,7 @@ public class DatabaseConfig {
     public HibernateJpaVendorAdapter jpaVendorAdapter() {
         HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
         hibernateJpaVendorAdapter.setShowSql(true);
-        hibernateJpaVendorAdapter.setDatabasePlatform("org.hibernate.dialect.MySQLDialect");
+        hibernateJpaVendorAdapter.setDatabasePlatform("org.hibernate.dialect.PostgreSQLDialect");
         return hibernateJpaVendorAdapter;
     }
 
