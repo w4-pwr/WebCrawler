@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * Created by Rafal on 2016-03-22.
+ * Interface for User service, implementation is in the same package
  */
 public interface UserService {
 

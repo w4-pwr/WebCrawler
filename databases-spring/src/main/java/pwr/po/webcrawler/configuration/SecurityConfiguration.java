@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  * Created by Rafal on 2016-03-22.
+ *
  */
 @Configuration
 @EnableWebSecurity
