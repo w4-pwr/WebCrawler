@@ -3,10 +3,6 @@ jdk:
 - oraclejdk8
 notifications:
   slack: webcrawler:LIBCqQxYwgWEhIPZGxk7N0oE
-branches:
-  only:
-  - master
-  - dev
 deploy:
   provider: codedeploy
   access_key_id: AKIAJEG2M5D7BTTCLEUA
@@ -16,4 +12,3 @@ deploy:
   deployment_group: ''
   on:
     repo: radekkut/WebCrawler
-    branch: master
