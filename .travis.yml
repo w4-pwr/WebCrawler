@@ -12,3 +12,4 @@ deploy:
   deployment_group: ''
   on:
     repo: radekkut/WebCrawler
+    branch: feature/#3_configure_travis
