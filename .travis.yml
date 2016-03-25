@@ -3,3 +3,7 @@ jdk:
   - oraclejdk8
 notifications:
   slack: webcrawler:LIBCqQxYwgWEhIPZGxk7N0oE
+branches:
+  only:
+    - master
+    - dev
