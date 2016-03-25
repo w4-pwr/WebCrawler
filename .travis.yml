@@ -1,9 +1,19 @@
 language: java
 jdk:
-  - oraclejdk8
+- oraclejdk8
 notifications:
   slack: webcrawler:LIBCqQxYwgWEhIPZGxk7N0oE
 branches:
   only:
-    - master
-    - dev
+  - master
+  - dev
+deploy:
+  provider: codedeploy
+  access_key_id: AKIAJEG2M5D7BTTCLEUA
+  secret_access_key:
+    secure: jF1VZbMLsUPaQBkFn3vIrw8w7i5A5BccgFfDEA7ZjPoXUsCkhNHnXLNhPkWlBcuZIGEReL8/iYMEEHmEECeMX6wcFO04eNCtLxKYbOUEA9Vn+NKsLl+ojSs/RxPptO6tCaWrcB+VCNB6sksAC/PvFWxctLuEVvihTmBp2hdLPAVcn3no5D2Umq6Nq4YGgkjZQpzIJGA+ds3ietVkJSdKFsR7WQdI4pT+CyZUw/wSkeMx/tPq8/1ZtXUKEmN7wB1HGfmFmnADsTdfkaZ1Ml7xr0n2LwTV/HZFkuTqdi0e0a6DrrqFjyEe+Q1kyS9DaT7bDa/AXZUOw9hofd2f+6foiArYCmNF/9atiRb+XmwEsR0gW9ZVOCazvsi8dKL7Z1BqzqTQjNCjTjIQlrcsn9iqA7KVJSaRfD43CqRTpV4xLzrqAtyRhPS/Q9YfA2oIdcpzeD0yXyPxx9d8eSltkK1LeArwvtshEcgO28gsKvgsFPfWjueNH5IUi+S1A72BOrv5GMuvZoqy0lLRHTCjm/B6bJIMfW87SHqa9qLZNzS9ZP4tmYIm6mO77zXAy6x5Of/WKMYzlPi8TvzN978q/XSGBfYm098rF93+cuMWL7tvhI3BvvKn3M+Q4PGlWKbmu6Ujjor5H8LX++GF2OdpG4BmtKeubOgrJh0K07lAKOYyZpQ=
+  application: WebCrawler
+  deployment_group: ''
+  on:
+    repo: radekkut/WebCrawler
+    branch: master
