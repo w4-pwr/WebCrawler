@@ -7,6 +7,7 @@ branches:
   only:
   - master
   - dev
+  - feature/#3_configure_travis
 deploy:
   provider: codedeploy
   access_key_id: AKIAIWLXXTE27EVKXWKA
