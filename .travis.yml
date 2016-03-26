@@ -9,6 +9,7 @@ deploy:
   secret_access_key: LQNeNaAxkrp1/Zi9Am5qK0Pdq8W6ZnjPQNPLqvSG
   application: WebCrawler-App
   deployment_group: WebCrawler-DepGrp
+  region: us-west-2
   on:
     repo: radekkut/WebCrawler
     branch: feature/#3_configure_travis
