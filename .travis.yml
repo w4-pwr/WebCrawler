@@ -3,6 +3,10 @@ jdk:
 - oraclejdk8
 notifications:
   slack: webcrawler:LIBCqQxYwgWEhIPZGxk7N0oE
+branches:
+  only:
+  - master
+  - dev
 deploy:
   provider: codedeploy
   access_key_id: AKIAIWLXXTE27EVKXWKA
@@ -12,4 +16,4 @@ deploy:
   region: us-west-2
   on:
     repo: radekkut/WebCrawler
-    branch: feature/#3_configure_travis
+    branch: master
