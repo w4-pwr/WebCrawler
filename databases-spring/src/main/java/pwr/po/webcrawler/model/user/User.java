@@ -1,6 +1,7 @@
 package pwr.po.webcrawler.model.user;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 @Entity
 @Table(name = "users")
@@ -21,6 +23,7 @@ public class User implements UserDetails, Serializable {
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
 
     private String username;
 
@@ -38,8 +41,9 @@ public class User implements UserDetails, Serializable {
     @Column(length = 60)
     private String password;
 
-    @Column(columnDefinition = "default : \"ROLE_USER\"")
-    private String[] role;
+    @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
     @Column(name = "registration_date")
     private Date registrationDate;
@@ -70,9 +74,13 @@ public class User implements UserDetails, Serializable {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+    public Collection<GrantedAuthority> getAuthorities() {
+        HashSet<GrantedAuthority> authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority(role.getAuthority()));
+        return authorities;
     }
+
+
 
     @Override
     public boolean isAccountNonExpired() {
@@ -93,6 +101,8 @@ public class User implements UserDetails, Serializable {
     public boolean isEnabled() {
         return true;
     }
+
+    //dlaczego lombok nie dziala?
 
     public long getId() {
         return id;
@@ -148,11 +158,11 @@ public class User implements UserDetails, Serializable {
         return password;
     }
 
-    public String[] getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(String[] role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 

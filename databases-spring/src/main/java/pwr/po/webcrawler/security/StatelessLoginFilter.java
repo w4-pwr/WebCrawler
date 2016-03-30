@@ -63,11 +63,12 @@ public class StatelessLoginFilter extends UsernamePasswordAuthenticationFilter {
         System.out.println("StatelessLoginFilter.attemptAuthentication");
 
         try {
-//            UserRequest user = new ObjectMapper().readValue(request.getInputStream(), UserRequest.class);
-//            return  getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-            //
-            User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
-            return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+            UserRequest user = new ObjectMapper().readValue(request.getInputStream(), UserRequest.class);
+            return  getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+
+//            User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
+//            return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+
         } catch (IOException e) {
             e.printStackTrace();
             redirect(response);

@@ -23,18 +23,5 @@ public class LoginController {
     }
 
 
-    @SuppressWarnings("unused")
-    private static class UserLogin {
-        public String username;
-        public String password;
-    }
 
-    @SuppressWarnings("unused")
-    private static class LoginResponse {
-        public String token;
-
-        public LoginResponse(final String token) {
-            this.token = token;
-        }
-    }
 }

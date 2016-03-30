@@ -21,8 +21,7 @@ public class UserAuthentication implements Authentication{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
+        return user.getAuthorities(); }
 
     @Override
     public Object getCredentials() {
@@ -46,7 +45,7 @@ public class UserAuthentication implements Authentication{
 
     @Override
     public void setAuthenticated(boolean b) throws IllegalArgumentException {
-
+        this.authenticated = b;
     }
 
     @Override
