@@ -34,8 +34,7 @@ public class UserController{
 
     @SuppressWarnings("unchecked")
     @RequestMapping(value="{id}", method=GET)
-    public @ResponseBody
-    User getUser(@PathVariable Long id){
+    public @ResponseBody User getUser(@PathVariable Long id, final HttpServletRequest request, Principal principal){
         return userService.getUser(id);
     }
 
@@ -55,9 +54,6 @@ public class UserController{
             return -1;
         }
         User user = new User(username.toLowerCase(),firstName,lastName);
-
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
         user.setRegistrationDate(new Date());
         user.setPassword(encoder.encode(password));
         user.setEmail(email);
@@ -117,5 +113,28 @@ public class UserController{
         changePassword(id,password);
         changeProfileImage(id,profileImage);
         return "success";
+    }
+    @RequestMapping(value="change_password")
+    public @ResponseBody String changeUserPassword(@RequestParam("username") String username,
+                                                 @RequestParam("oldPassword")String oldPassword,
+                                                 @RequestParam("newPassword")String newPassword,
+                                                 @RequestParam("matchNewPassword")String matchNewPassword)
+    {
+        User user = userService.getUser(username);
+        if(user==null)
+            return "Failed: user does not exist ";
+
+        if(!User.PASSWORD_ENCODER.matches(oldPassword,user.getPassword()))
+        {
+            return "Failed: old password is wrong " +
+                    "";
+        }
+        if(!newPassword.equals(matchNewPassword))
+        {
+            return "Failed: passwords are not the same";
+        }
+            user.setPassword(newPassword);
+            userService.save(user);
+        return "Success : password was changed ";
     }
 }
