@@ -12,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
+import pwr.po.webcrawler.model.user.User;
 import pwr.po.webcrawler.security.StatelessAuthenticationFilter;
 import pwr.po.webcrawler.security.StatelessLoginFilter;
 
@@ -56,11 +57,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth
-//                .userDetailsService(this.userDetailsService)
-//                .passwordEncoder(User.PASSWORD_ENCODER);
-        auth .inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER");
+        auth
+                .userDetailsService(this.userDetailsService)
+                .passwordEncoder(User.PASSWORD_ENCODER);
+//        auth .inMemoryAuthentication()
+//                .withUser("user").password("password").roles("USER");
     }
 
     @Override
