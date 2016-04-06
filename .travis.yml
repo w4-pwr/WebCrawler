@@ -7,7 +7,6 @@ branches:
   only:
   - master
   - dev
-  - feature/#3_configure_travis
 
 env:
   global:
@@ -23,7 +22,7 @@ deploy:
   bucket_name: elasticbeanstalk-us-west-2-493126854002
   on:
     repo: radekkut/WebCrawler
-    branch: feature/#3_configure_travis
+    branch: master
 
 
 addons:
@@ -34,4 +33,4 @@ addons:
     notification_email: radoslaw.kutylowski@stermedia.pl
     build_command_prepend: "mvn clean"
     build_command:   "mvn compile"
-    branch_pattern: feature/#3_configure_travis
+    branch_pattern: develop
