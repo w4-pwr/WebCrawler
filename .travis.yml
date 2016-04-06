@@ -18,7 +18,7 @@ deploy:
   access_key_id: AKIAIDGGEWLKEAEKPHEQ
   secret_access_key: $AWS_KEY
   region: us-west-2
-  app:  webcrawlerbs
+  app:  WebCrawler-BS
   env: webcrawlerbs
   bucket_name: elasticbeanstalk-us-west-2-493126854002
   on:
