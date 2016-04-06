@@ -139,7 +139,11 @@
             <artifactId>jjwt</artifactId>
             <version>0.6.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.googlecode.flyway</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>2.1.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -154,6 +158,26 @@
                         <port>8080</port>
                         <uriEncoding>UTF-8</uriEncoding>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.flywaydb</groupId>
+                    <artifactId>flyway-maven-plugin</artifactId>
+                    <version>4.0</version>
+                    <configuration>
+                        <!-- <url>jdbc:h2:file:./target/foobar</url> -->
+                        <!-- <url>jdbc:postgresql://localhost:8080</url> -->
+                        <url>jdbc:postgresql://ec2-54-228-246-206.eu-west-1.compute.amazonaws.com:5432</url>
+                        <!-- <url>jdbc:postgresql://localhost:3306/javatest</url> -->
+                        <!-- <url>jdbc:mysql://localhost:3306/mysql</url> -->
+                        <user>sa</user>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.postgresql</groupId>
+                            <artifactId>postgresql</artifactId>
+                            <version>9.4.1207.jre7</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
             </plugins>
         </pluginManagement>
