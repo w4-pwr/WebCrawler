@@ -2,6 +2,7 @@ import React from 'react'
 
 export default React.createClass({
     render() {
+        window._MainHeader = this;
         return <header className="main-header">
 
             {/* Logo */}
@@ -20,53 +21,60 @@ export default React.createClass({
                 </a>
                 {/* Navbar Right Menu */}
                 <div className="navbar-custom-menu">
-                    <ul className="nav navbar-nav">
-                        <li className="dropdown user user-menu">
-                            {/* Menu Sign up */}
-
-                            <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                                <span className="hidden-xs2">Sign up</span>
-                            </a>
-                            <ul className="dropdown-menu">
-                                <li className="user-header sign-up">
-                                    <input id='username' className='form-control' type='text' placeholder='username' />
-                                    <input id='email' className='form-control' type='text' placeholder='email' />
-                                    <input id='firstname' className='form-control' type='text' placeholder='first name' />
-                                    <input id='lastname' className='form-control' type='text' placeholder='last name' />
-                                    <input id='password' className='form-control' type='password' placeholder='password' />
-                                    <input id='password2' className='form-control' type='password' placeholder='re-type password' />
-                                </li>
-                                <li className="user-footer">
-
-                                    <div className="pull-right">
-                                        <a className="btn btn-default btn-flat" onClick={this.signUp}>Sign up</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                        <li className="dropdown user user-menu">
-                            {/* Menu Sign in */}
-
-                            <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                                <span className="hidden-xs">Sign in</span>
-                            </a>
-                            <ul className="dropdown-menu">
-                                <li className="user-header sign-in">
-                                    <input id='email' className='form-control' type='text' placeholder='email' />
-                                    <input id='password' className='form-control' type='password' placeholder='password' />
-
-                                </li>
-                                <li className="user-footer">
-                                    <div className="pull-right">
-                                        <a className="btn btn-default btn-flat" onClick={this.signIn}>Sign in</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
+                    {this.renderDropdowns()}
                 </div>
             </nav>
         </header>
+    },
+    renderDropdowns() {
+        if (localStorage.getItem('token')) {
+            return <ul className="nav navbar-nav">{/*TODO Kaj wklej tu wyświetlanie usera*/}</ul> 
+        } else {
+            return <ul className="nav navbar-nav">
+                <li className="dropdown user user-menu">
+                    {/* Menu Sign up */}
+
+                    <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+                        <span className="hidden-xs2">Sign up</span>
+                    </a>
+                    <ul className="dropdown-menu">
+                        <li className="user-header sign-up">
+                            <input id='username' className='form-control' type='text' placeholder='username' />
+                            <input id='email' className='form-control' type='text' placeholder='email' />
+                            <input id='firstname' className='form-control' type='text' placeholder='first name' />
+                            <input id='lastname' className='form-control' type='text' placeholder='last name' />
+                            <input id='password' className='form-control' type='password' placeholder='password' />
+                            <input id='password2' className='form-control' type='password' placeholder='re-type password' />
+                        </li>
+                        <li className="user-footer">
+
+                            <div className="pull-right">
+                                <a className="btn btn-default btn-flat" onClick={this.signUp}>Sign up</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li className="dropdown user user-menu">
+                    {/* Menu Sign in */}
+
+                    <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+                        <span className="hidden-xs">Sign in</span>
+                    </a>
+                    <ul className="dropdown-menu">
+                        <li className="user-header sign-in">
+                            <input id='email' className='form-control' type='text' placeholder='email' />
+                            <input id='password' className='form-control' type='password' placeholder='password' />
+
+                        </li>
+                        <li className="user-footer">
+                            <div className="pull-right">
+                                <a className="btn btn-default btn-flat" onClick={this.signIn}>Sign in</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        }
     },
     signUp(e) {
         var $menu = $(e.target).closest('.dropdown-menu');
@@ -90,8 +98,6 @@ export default React.createClass({
                         xhttp.onreadystatechange = function () {
                             if (xhttp.readyState == 4 && xhttp.status == 200) {
                                 console.log(xhttp.responseText);
-                                //TODO czy na pewno ten token tak będzie szedł
-                                this.setState({token: xhttp.responseText});
                             }
                         };
                         var url = "localhost:8080/WebCrawler/registration";
@@ -129,10 +135,10 @@ export default React.createClass({
             if (xhttp.readyState == 4 && xhttp.status == 200) {
             	var Token = xhttp.responseText;
             	console.log(xhttp.responseText);
-            	
-            	if(Token != null)
+            	if (Token) {
                 	localStorage.setItem('token', Token);
-                
+                	this.forceUpdate();
+                }
             }
         };
         xhttp.open('POST', 'signIn?email='+email+'&password='+password, true);
