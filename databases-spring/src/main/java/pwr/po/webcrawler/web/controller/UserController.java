@@ -1,6 +1,7 @@
 package pwr.po.webcrawler.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import pwr.po.webcrawler.model.user.User;
 import pwr.po.webcrawler.model.user.UserRole;
@@ -54,8 +55,11 @@ public class UserController{
             return -1;
         }
         User user = new User(username.toLowerCase(),firstName,lastName);
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
         user.setRegistrationDate(new Date());
-        user.setPassword(password);//TODO BCrypt encoder
+        user.setPassword(encoder.encode(password));
         user.setEmail(email);
         user.setRole(UserRole.USER);
         userService.save(user);

@@ -44,7 +44,6 @@ public class StatelessLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        System.out.println("StatelessLoginFilter.successfulAuthentication");
         // Lookup the complete User object from the database and create an Authentication for it
         final User authenticatedUser = (User) userService.loadUserByUsername(authResult.getName());
         final UserAuthentication userAuthentication = new UserAuthentication(authenticatedUser);
@@ -60,16 +59,10 @@ public class StatelessLoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
-        System.out.println("StatelessLoginFilter.attemptAuthentication");
 
         try {
             UserRequest user = new ObjectMapper().readValue(request.getInputStream(), UserRequest.class);
-            System.out.println(user.getUsername()+" "+user.getPassword());
-            System.out.println("StatelessLoginFilter.inTryCatch");
             return  getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-
-//            User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
-//            return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 
         } catch (IOException e) {
             e.printStackTrace();
