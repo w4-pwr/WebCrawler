@@ -3,11 +3,14 @@ package pwr.po.webcrawler.web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pwr.po.webcrawler.model.user.User;
+import pwr.po.webcrawler.model.user.UserRole;
 import pwr.po.webcrawler.service.user.UserService;
+import pwr.po.webcrawler.web.dto.UserDTO;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -20,13 +23,19 @@ public class UserController{
     private UserService userService;
 
     @RequestMapping(value = "getall", method = GET)
-    public List<User> get() {
-        return userService.getAll();
+    public List<UserDTO> get() {
+        List<User> list = userService.getAll();
+        List<UserDTO> resultList = new LinkedList<>();
+        for(User user : list){
+            resultList.add(new UserDTO(user));
+        }
+        return resultList;
     }
 
     @SuppressWarnings("unchecked")
     @RequestMapping(value="{id}", method=GET)
-    public @ResponseBody User getUser(@PathVariable Long id, final HttpServletRequest request, Principal principal){
+    public @ResponseBody
+    User getUser(@PathVariable Long id, final HttpServletRequest request, Principal principal){
         return userService.getUser(id);
     }
 
@@ -50,7 +59,7 @@ public class UserController{
         user.setRegistrationDate(new Date());
         user.setPassword(password);//TODO BCrypt encoder
         user.setEmail(email);
-        user.setRole(new String []{"ROLE_USER"});
+        user.setRole(UserRole.USER);
         userService.save(user);
         return userService.getUser(username.toLowerCase()).getId();
     }
