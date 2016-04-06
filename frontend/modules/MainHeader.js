@@ -122,13 +122,23 @@ export default React.createClass({
         var password = $menu.find('#password')[0].value;
         console.log(email, password);
         var xhttp = new XMLHttpRequest();
+        
         xhttp.onreadystatechange = function() {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
-                console.log(xhttp.responseText);
+            	var Token = xhttp.responseText;
+            	console.log(xhttp.responseText);
+            	
+            	if(Token != null)
+                	localStorage.setItem('token', Token);
+                
             }
         };
-        xhttp.open('GET', 'signIn?email='+email+'&password='+password, true);
+        xhttp.open('POST', 'signIn?email='+email+'&password='+password, true);
         xhttp.send();
+    },
+    signOut() {
+    	if(localStorage.getItem('token') != null)
+    		localStorage.removeItem('token');
     },
     componentDidMount() {
         $('.dropdown-menu .user-header').click(function(e) {
