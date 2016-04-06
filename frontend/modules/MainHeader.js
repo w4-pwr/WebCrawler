@@ -77,11 +77,11 @@ export default React.createClass({
         var firstname = $menu.find('#firstname')[0].value;
         var lastname = $menu.find('#lastname')[0].value;
         var registrationDate= new Date().toJSON().slice(0,10);
-        console.log(registrationDate);
 
         var xhttp = new XMLHttpRequest();
+
         function check() {
-            if(password =="" || password2=="" || username =="" || firstname =="" || email=="" || password2==""){
+            if(password =="" || password2=="" || username =="" || firstname =="" || email=="" || lastname==""){
                 alert("Fill all spaces to register");
             }
             else {
@@ -92,8 +92,17 @@ export default React.createClass({
                                 console.log(xhttp.responseText);
                             }
                         };
-                        xhttp.open('POST', 'signUp?email=' + email + '&password=' + password + '&username=' + username + '&firstname=' + firstname + '&lastname=' + lastname+ '&registrationDate' +registrationDate , true);
-                        xhttp.send();
+                        var url = "localhost:8080/WebCrawler/registration";
+                        var params = JSON.stringify({
+                            email: email,
+                            password: password,
+                            username: username,
+                            firstName: firstname,
+                            lastName: lastname,
+                            registrationDate: registrationDate,
+                        })
+                        xhttp.open('POST', url , true);
+                        xhttp.send(params);
                     }
                     else {
                         alert("Passwords not match, Fill them correctly.");
