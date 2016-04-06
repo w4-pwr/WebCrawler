@@ -53,7 +53,7 @@ export default React.createClass({
                             <ul className="dropdown-menu">
                                 <li className="user-header sign-in">
                                     <input id='email' className='form-control' type='text' placeholder='email' />
-                                    <input id='password' className='form-control' type='text' placeholder='password' />
+                                    <input id='password' className='form-control' type='password' placeholder='password' />
 
                                 </li>
                                 <li className="user-footer">
@@ -81,7 +81,7 @@ export default React.createClass({
         var xhttp = new XMLHttpRequest();
 
         function check() {
-            if(password =="" || password2=="" || username =="" || firstname =="" || email=="" || lastname==""){
+            if (password =="" || password2=="" || username =="" || firstname =="" || email=="" || lastname=="") {
                 alert("Fill all spaces to register");
             }
             else {
@@ -90,6 +90,8 @@ export default React.createClass({
                         xhttp.onreadystatechange = function () {
                             if (xhttp.readyState == 4 && xhttp.status == 200) {
                                 console.log(xhttp.responseText);
+                                //TODO czy na pewno ten token tak będzie szedł
+                                this.setState({token: xhttp.responseText});
                             }
                         };
                         var url = "localhost:8080/WebCrawler/registration";
