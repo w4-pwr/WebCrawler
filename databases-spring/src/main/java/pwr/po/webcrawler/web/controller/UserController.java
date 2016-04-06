@@ -77,4 +77,43 @@ public class UserController{
         userService.save(user);
         return "success";
     }
+    @RequestMapping(value="changefirstname/{id}/newFirstName}")
+    public String changeFirstName(@PathVariable long id, @PathVariable String firstName) {
+        User user = userService.getUser(id);
+        user.setFirstName(firstName);
+        userService.save(user);
+        return "success";
+    }
+    @RequestMapping(value="changelastname/{id}/{newLastName)")
+    public String changeLastName(@PathVariable long id, @PathVariable String lastName) {
+        User user = userService.getUser(id);
+        user.setLastName(lastName);
+        userService.save(user);
+        return "success";
+    }
+    @RequestMapping(value="changepassword/{id}/{newPassword)")
+    public String changePassword(@PathVariable long id, @PathVariable String password) {
+        User user = userService.getUser(id);
+        user.setPassword(password);
+        userService.save(user);
+        return "success";
+    }
+    @RequestMapping(value="changeprofileimage/{id}/{newProfileImage})")
+    public String changeProfileImage(@PathVariable long id, @PathVariable String profileImage) {
+        User user = userService.getUser(id);
+        user.setProfileImage(profileImage);
+        userService.save(user);
+        return "success";
+    }
+    @RequestMapping(value="editprofile/{id}")
+    public String editProfile(@PathVariable long id, @PathVariable String firstname,
+                              @PathVariable String lastname,@PathVariable String email,
+                              @PathVariable String password, @PathVariable String profileImage){
+        changeFirstName(id,firstname);
+        changeLastName(id,lastname);
+        changeEmail(id,email);
+        changePassword(id,password);
+        changeProfileImage(id,profileImage);
+        return "success";
+    }
 }
