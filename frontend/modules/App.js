@@ -9,7 +9,7 @@ export default React.createClass({
             
             {/* Left side column. contains the logo and sidebar */}
             <aside className="main-sidebar">
-
+            
             {/* sidebar: style can be found in sidebar.less */}
             <section className="sidebar">
 
@@ -22,7 +22,7 @@ export default React.createClass({
                 <li className="treeview">
                   <a href="#"><i className="fa fa-link"></i> <span>Multilevel</span> <i className="fa fa-angle-left pull-right"></i></a>
                   <ul className="treeview-menu">
-                    <li><a href="#">Link in level 2</a></li>
+                    <li><a href="#">Link in level aaa2</a></li>
                     <li><a href="#">Link in level 2</a></li>
                   </ul>
                 </li>
