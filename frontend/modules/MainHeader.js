@@ -40,6 +40,11 @@ export default React.createClass({
                         </li>
                     </ul>
                 </li>
+                <li>
+                    <a href="#" className="dropdown-toggle" onClick={this.signOut}>
+                        <span className="hidden-xs">Sign out</span>
+                    </a>
+                </li>
             </ul>
         } else {
             return <ul className="nav navbar-nav">
