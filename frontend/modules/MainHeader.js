@@ -21,24 +21,20 @@ export default React.createClass({
                 {/* Navbar Right Menu */}
                 <div className="navbar-custom-menu">
                     <ul className="nav navbar-nav">
-                        {/* Messages: style can be found in dropdown.less*/}
-
-                        {/* User Account Menu */}
                         <li className="dropdown user user-menu">
-                            {/* Menu Toggle Button */}
+                            {/* Menu Sign up */}
 
                             <a href="#" className="dropdown-toggle" data-toggle="dropdown">
                                 <span className="hidden-xs2">Sign up</span>
                             </a>
                             <ul className="dropdown-menu">
-                                <li className="user-header">
+                                <li className="user-header sign-up">
                                     <input id='username' className='form-control' type='text' placeholder='username' />
                                     <input id='email' className='form-control' type='text' placeholder='email' />
                                     <input id='firstname' className='form-control' type='text' placeholder='first name' />
                                     <input id='lastname' className='form-control' type='text' placeholder='last name' />
                                     <input id='password' className='form-control' type='password' placeholder='password' />
                                     <input id='password2' className='form-control' type='password' placeholder='re-type password' />
-
                                 </li>
                                 <li className="user-footer">
 
@@ -47,19 +43,15 @@ export default React.createClass({
                                     </div>
                                 </li>
                             </ul>
-
-
-
                         </li>
                         <li className="dropdown user user-menu">
-                            {/* Menu Toggle Button */}
-
+                            {/* Menu Sign in */}
 
                             <a href="#" className="dropdown-toggle" data-toggle="dropdown">
                                 <span className="hidden-xs">Sign in</span>
                             </a>
                             <ul className="dropdown-menu">
-                                <li className="user-header">
+                                <li className="user-header sign-in">
                                     <input id='email' className='form-control' type='text' placeholder='email' />
                                     <input id='password' className='form-control' type='text' placeholder='password' />
 

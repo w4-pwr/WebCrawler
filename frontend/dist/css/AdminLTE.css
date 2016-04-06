@@ -364,6 +364,7 @@ a:focus {
     color: #97a0b3;
   }
 }
+
 .navbar-toggle {
   color: #fff;
 
@@ -915,6 +916,9 @@ a:focus {
 .dropdown-menu > li > a {
   color: #777;
 }
+//xxx
+.dropdown-menu.sign-up {
+}
 .dropdown-menu > li > a > .glyphicon,
 .dropdown-menu > li > a > .fa,
 .dropdown-menu > li > a > .ion {
@@ -1078,6 +1082,16 @@ a:focus {
 }
 .navbar-nav > .user-menu > .dropdown-menu > li.user-header {
   height: 175px;
+  padding: 10px;
+  text-align: center;
+}
+.navbar-nav > .user-menu > .dropdown-menu > li.user-header.sign-up {
+  height: 250px;
+  padding: 10px;
+  text-align: center;
+}
+.navbar-nav > .user-menu > .dropdown-menu > li.user-header.sign-in {
+  height: 100px;
   padding: 10px;
   text-align: center;
 }
