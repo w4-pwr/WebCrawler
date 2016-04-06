@@ -27,8 +27,20 @@ export default React.createClass({
         </header>
     },
     renderDropdowns() {
-        if (localStorage.getItem('token')) {
-            return <ul className="nav navbar-nav">{/*TODO Kaj wklej tu wyświetlanie usera*/}</ul> 
+        var Token = localStorage.getItem('token');
+        if (Token) {
+            return <ul className="nav navbar-nav">
+                <li className="dropdown user user-menu">
+                    <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+                        <span className="hidden-xs">Your profile</span>
+                    </a>
+                    <ul className="dropdown-menu">
+                        <li className="user-header account">
+                            {/*tutaj uzyc tokena*/}
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         } else {
             return <ul className="nav navbar-nav">
                 <li className="dropdown user user-menu">
