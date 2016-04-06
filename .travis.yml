@@ -7,6 +7,7 @@ branches:
   only:
   - master
   - dev
+  - feature/#3_configure_travis
 
 env:
   global:
@@ -22,7 +23,7 @@ deploy:
   bucket_name: elasticbeanstalk-us-west-2-493126854002
   on:
     repo: radekkut/WebCrawler
-    branch: master
+    branch: feature/#3_configure_travis
 
 
 addons:
