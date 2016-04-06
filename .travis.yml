@@ -16,7 +16,7 @@ env:
 deploy:
   provider: elasticbeanstalk
   access_key_id: AKIAIDGGEWLKEAEKPHEQ
-  secret_access_key: {{AWS_KEY}}
+  secret_access_key: $AWS_KEY
   region: us-west-2
   app:  webcrawlerbs
   env: webcrawlerbs
