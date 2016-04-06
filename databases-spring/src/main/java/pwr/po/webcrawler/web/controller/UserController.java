@@ -7,13 +7,12 @@ import pwr.po.webcrawler.model.user.UserRole;
 import pwr.po.webcrawler.service.user.UserService;
 import pwr.po.webcrawler.web.dto.UserDTO;
 
-import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @RequestMapping(value="user")
@@ -35,11 +34,10 @@ public class UserController{
     @SuppressWarnings("unchecked")
     @RequestMapping(value="{id}", method=GET)
     public @ResponseBody
-    User getUser(@PathVariable Long id, final HttpServletRequest request, Principal principal){
+    User getUser(@PathVariable Long id){
         return userService.getUser(id);
     }
 
-    //FIXME URI encoding on @ symbol
     @RequestMapping(value="save")
     public @ResponseBody long saveUser(@RequestParam("username") String username ,
                          @RequestParam("firstName") String firstName,
@@ -77,7 +75,7 @@ public class UserController{
         userService.save(user);
         return "success";
     }
-    @RequestMapping(value="changefirstname/{id}/newFirstName}")
+    @RequestMapping(value="changefirstname/{id}/{newFirstName}")
     public String changeFirstName(@PathVariable long id, @PathVariable String firstName) {
         User user = userService.getUser(id);
         user.setFirstName(firstName);
