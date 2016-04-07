@@ -1,6 +1,8 @@
 package pwr.po.webcrawler.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import pwr.po.webcrawler.model.user.User;
@@ -8,6 +10,8 @@ import pwr.po.webcrawler.model.user.UserRole;
 import pwr.po.webcrawler.service.user.UserService;
 import pwr.po.webcrawler.web.dto.UserDTO;
 
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,13 +38,12 @@ public class UserController{
 
     @SuppressWarnings("unchecked")
     @RequestMapping(value="{id}", method=GET)
-    public @ResponseBody
-    User getUser(@PathVariable Long id){
+    public @ResponseBody User getUser(@PathVariable Long id, final HttpServletRequest request, Principal principal){
         return userService.getUser(id);
     }
 
     @RequestMapping(value="save")
-    public @ResponseBody long saveUser(@RequestParam("username") String username ,
+    public @ResponseBody String saveUser(@RequestParam("userName") String username ,
                          @RequestParam("firstName") String firstName,
                          @RequestParam("lastName") String lastName,
                          @RequestParam("password") String password,
@@ -48,22 +51,22 @@ public class UserController{
                          @RequestParam("email") String email){
 
         if(userService.getUser(username) != null){
-            return -1;
+            return "Failed: User exist";
         }
         if(!password.equals(matchPassword))
         {
-            return -1;
+            return "Failed: passwords aren't the same";
         }
         User user = new User(username.toLowerCase(),firstName,lastName);
+        user.setRegistrationDate(new Date());
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        user.setRegistrationDate(new Date());
         user.setPassword(encoder.encode(password));
         user.setEmail(email);
         user.setRole(UserRole.USER);
         userService.save(user);
-        return userService.getUser(username.toLowerCase()).getId();
+        return "Success : User saved";
     }
 
     @RequestMapping(value="delete/{id}")
@@ -117,5 +120,28 @@ public class UserController{
         changePassword(id,password);
         changeProfileImage(id,profileImage);
         return "success";
+    }
+    @RequestMapping(value="change_password")
+    public @ResponseBody String changeUserPassword(@RequestParam("userName") String username,
+                                                 @RequestParam("oldPassword")String oldPassword,
+                                                 @RequestParam("newPassword")String newPassword,
+                                                 @RequestParam("matchNewPassword")String matchNewPassword)
+    {
+        User user = userService.getUser(username);
+        if(user==null)
+            return "Failed: user does not exist";
+
+        if(!User.PASSWORD_ENCODER.matches(oldPassword,user.getPassword()))
+        {
+            return "Failed: old password is wrong";
+
+        }
+        if(!newPassword.equals(matchNewPassword))
+        {
+            return "Failed: passwords are not the same";
+        }
+            user.setPassword(newPassword);
+            userService.save(user);
+        return "Success : password was changed";
     }
 }
