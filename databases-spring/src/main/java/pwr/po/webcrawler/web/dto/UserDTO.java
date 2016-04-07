@@ -8,14 +8,14 @@ import pwr.po.webcrawler.model.user.User;
  */
 public class UserDTO {
 
-    public String username;
+    public String userName;
 
     public String firstName;
 
     public String lastName;
 
     public UserDTO(User user) {
-        this.username = user.getUsername();
+        this.userName = user.getUsername();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
 
