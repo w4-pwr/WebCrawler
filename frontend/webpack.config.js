@@ -1,10 +1,17 @@
+//var StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
+//var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: './index.js',
 
   output: {
-    filename: 'bundle.js',
+    filename: './dist/bundle.js',
     publicPath: ''
   },
+
+  /*plugins: [
+    //new StaticSiteGeneratorPlugin('./dist/bundle.js', ['./dist'], '/')
+     new HtmlWebpackPlugin()
+  ],*/
 
   module: {
     loaders: [
