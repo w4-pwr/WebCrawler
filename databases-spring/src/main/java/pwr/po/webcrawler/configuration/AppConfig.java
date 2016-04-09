@@ -36,7 +36,6 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         flyway.setDataSource(dataSource);
         flyway.clean();
         flyway.init();
-        //flyway.setInitOnMigrate(true);
         flyway.setSchemas("dabau342amt24s");
 
         flyway.migrate();
