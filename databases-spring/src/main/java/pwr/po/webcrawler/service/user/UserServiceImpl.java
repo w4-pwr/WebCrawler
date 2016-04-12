@@ -1,7 +1,6 @@
 package pwr.po.webcrawler.service.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,9 +10,10 @@ import pwr.po.webcrawler.model.user.User;
 import pwr.po.webcrawler.repository.user.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements  UserService ,UserDetailsService{
 
     @Autowired
     private UserRepository userRepository;
@@ -45,10 +45,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        pwr.po.webcrawler.model.user.User currentUser = userRepository.findByUsername(name);//wiem,ze brzydko
-        if (currentUser != null) {
-            return new org.springframework.security.core.userdetails.User(currentUser.getUsername(), currentUser.getPassword(),
-                    AuthorityUtils.createAuthorityList(currentUser.getRole()));
+        User user = userRepository.findByUsername(name);
+        Optional<User> userOptional = Optional.of(user);
+
+        if (userOptional.isPresent()) {
+            return user;
         }else{
             throw new UsernameNotFoundException("User not found");
         }

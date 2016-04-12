@@ -1,18 +1,25 @@
 package pwr.po.webcrawler.model.user;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pwr.po.webcrawler.model.Preferences;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "users")
-public class User implements Serializable {
+public class User implements UserDetails, Serializable {
 
     public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
@@ -20,6 +27,7 @@ public class User implements Serializable {
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
 
     private String username;
 
@@ -37,8 +45,9 @@ public class User implements Serializable {
     @Column(length = 60)
     private String password;
 
-    @Column(columnDefinition = "default : \"ROLE_USER\"")
-    private String[] role;
+    @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
     @Column(name = "registration_date")
     private Date registrationDate;
@@ -49,7 +58,7 @@ public class User implements Serializable {
     private Preferences preferences;
 
     public void setPassword(String password) {
-        this.password = PASSWORD_ENCODER.encode(password);
+        this.password = password;
     }
 
 
@@ -67,4 +76,35 @@ public class User implements Serializable {
 
     public User() {
     }
+
+    @Override
+    public Collection<GrantedAuthority> getAuthorities() {
+        HashSet<GrantedAuthority> authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority(role.getAuthority()));
+        return authorities;
+    }
+
+
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+
 }

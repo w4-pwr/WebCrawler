@@ -14,16 +14,12 @@ public class IndexController {
     @Autowired
     private UserService userService;
 
-      @RequestMapping(value = "/", method = GET)
+    @RequestMapping(value = "/", method = GET)
     @ResponseBody
     public String index() {
+
         return "<b>Strona domowa</b>";
     }
 
-    @RequestMapping(value = "/login", method = GET)
-    @ResponseBody
-    public String loginPage() {
-        return "login_temp";
-    }
 
 }
