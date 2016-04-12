@@ -16,6 +16,7 @@ env:
 before-deploy: (cd frontend && npm install)
 
 deploy:
+  skip-cleanup: true
   provider: elasticbeanstalk
   access_key_id: AKIAIDGGEWLKEAEKPHEQ
   secret_access_key: $AWS_KEY
