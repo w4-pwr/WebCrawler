@@ -32,7 +32,7 @@ public class DatabaseConfig {
 
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://ec2-54-228-246-206.eu-west-1.compute.amazonaws.com:5432/dabau342amt24s?&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory");
+        dataSource.setUrl("jdbc:postgresql://aa15k6cz6ts9djb.cuwyxzoig2h4.us-west-2.rds.amazonaws.com:5432/dabau342amt24s?&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory");
         dataSource.setUsername("jnheqfbnlmxjmy");
         dataSource.setPassword("AERYkjjbHNvIP_9ERFd7XSrMZj");
 
