@@ -16,7 +16,7 @@ env:
 script: (cd frontend && npm install)
 
 deploy:
-  skip-cleanup: true
+  skip_cleanup: true
   provider: elasticbeanstalk
   access_key_id: AKIAIDGGEWLKEAEKPHEQ
   secret_access_key: $AWS_KEY
