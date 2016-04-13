@@ -1,5 +1,6 @@
 package pwr.po.webcrawler.service.user;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -53,5 +54,7 @@ public class UserServiceImpl implements  UserService ,UserDetailsService{
         }else{
             throw new UsernameNotFoundException("User not found");
         }
+
+
     }
 }

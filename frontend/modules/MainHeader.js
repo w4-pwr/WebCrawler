@@ -117,7 +117,6 @@ export default React.createClass({
                                 console.log(xhttp.responseText);
                             }
                         };
-                        var url = "localhost:8080/WebCrawler/registration";
                         var params = JSON.stringify({
                             email: email,
                             password: password,
@@ -126,7 +125,7 @@ export default React.createClass({
                             lastName: lastname,
                             registrationDate: registrationDate,
                         })
-                        xhttp.open('POST', url , true);
+                        xhttp.open('POST', 'registration' , true);
                         xhttp.send(params);
                     }
                     else {
