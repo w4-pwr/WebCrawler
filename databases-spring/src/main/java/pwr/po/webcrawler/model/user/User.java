@@ -54,6 +54,11 @@ public class User implements UserDetails, Serializable {
     @Column(name = "registration_date")
     private Date registrationDate;
 
+    @Column(name = "enabled")
+    private boolean enabled;
+
+    @Column(name = "token")
+    private String token;
 
     @OneToOne
     @JoinColumn(name = "preferences_id")

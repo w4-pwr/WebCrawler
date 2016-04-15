@@ -7,12 +7,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.HttpClientErrorException;
 import pwr.po.webcrawler.model.user.User;
+import pwr.po.webcrawler.service.auth.TokenMd5Service;
 import pwr.po.webcrawler.service.user.UserService;
 import pwr.po.webcrawler.web.dto.UserDTO;
 import pwr.po.webcrawler.web.mapper.UserMapper;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,11 +19,14 @@ import java.util.List;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
-@RequestMapping(value = "user")
+@RequestMapping(value = "/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    TokenMd5Service tokenService;
 
     @RequestMapping(method = GET)
     public List<UserDTO> get() {
@@ -36,9 +38,8 @@ public class UserController {
         return result;
     }
 
-    @RequestMapping(value = "{id}", method = GET)
-    public UserDTO getUser(@PathVariable Long id)
-    {User user = userService.getUser(id);
+    @RequestMapping(value = "/{id}", method = GET)
+    public UserDTO getUser(@PathVariable Long id) {User user = userService.getUser(id);
         if(user == null){
 
         }
@@ -57,7 +58,29 @@ public class UserController {
         }
         dto.setRegistrationDate(new Date());
 
+        dto.setToken(tokenService.getMD5(dto.getId())); //Token for email confirmation
+
         userService.save(UserMapper.map(dto));
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * Activates user using token send via email
+     *
+     * @param token user token
+     * @return HttpStatus.UNAUTHORIZED or HttpStatus.OK
+     */
+    @RequestMapping(method = PUT, value = "/activate/{token}")
+    public ResponseEntity<String> activateUser(@PathVariable  String token) {
+        User user = userService.getUserByToken(token);
+
+        if(user == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        user.setEnabled(true);
+        userService.save(user);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
