@@ -1,23 +1,35 @@
 package pwr.po.webcrawler.web.dto;
 
+import lombok.Getter;
+import lombok.Setter;
 import pwr.po.webcrawler.model.user.User;
+import pwr.po.webcrawler.model.user.UserRole;
+
+import java.util.Date;
 
 /**
  * Created by Rafal on 2016-03-24.
  *
  */
+
+@Getter
+@Setter
 public class UserDTO {
 
-    public String userName;
+    private long id;
 
-    public String firstName;
+    private String username;
 
-    public String lastName;
+    private String firstName;
 
-    public UserDTO(User user) {
-        this.userName = user.getUsername();
-        this.firstName = user.getFirstName();
-        this.lastName = user.getLastName();
+    private String lastName;
 
-    }
+    private String password;
+
+    private Date registrationDate;
+
+    private String email;
+
+    private UserRole role;
+
 }

@@ -1,5 +1,6 @@
 package pwr.po.webrawler.web.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -15,20 +17,20 @@ import pwr.po.webcrawler.model.user.User;
 import pwr.po.webcrawler.service.user.UserService;
 import pwr.po.webcrawler.web.controller.UserController;
 import pwr.po.webcrawler.web.dto.UserDTO;
+import pwr.po.webcrawler.web.mapper.UserMapper;
 
 import java.util.Arrays;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.matches;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-/**
- * Created by Rafał Niedźwiecki on 06.04.2016.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class UserControllerTest {
 
@@ -45,14 +47,12 @@ public class UserControllerTest {
 
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(userControllerMock).build();
     }
 
     @Test
-    public void getUsersList_UsersExist() throws Exception
-    {
+    public void getUsersList_UsersExist() throws Exception {
         User first = new User();
         first.setFirstName("Pierwszy");
         first.setLastName("User");
@@ -62,166 +62,201 @@ public class UserControllerTest {
         second.setFirstName("Drugi");
         second.setLastName("User");
         second.setUsername("userDrugi");
-        UserDTO firstDTO = new UserDTO(first);
-        UserDTO secondDTO = new UserDTO(second);
+        UserDTO firstDTO = UserMapper.map(first);
+        UserDTO secondDTO = UserMapper.map(second);
 
-        when(userService.getAll()).thenReturn(Arrays.asList(first,second));
+        when(userService.getAll()).thenReturn(Arrays.asList(first, second));
 
-        mockMvc.perform(get("/user/getall"))
+        mockMvc.perform(get("/user"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$",hasSize(2)))
-                .andExpect(jsonPath("$[0].userName",is("userPierwszy")))
-                .andExpect(jsonPath("$[0].firstName",is("Pierwszy")))
-                .andExpect(jsonPath("$[0].lastName",is("User")))
-                .andExpect(jsonPath("$[1].userName",is("userDrugi")))
-                .andExpect(jsonPath("$[1].firstName",is("Drugi")))
-                .andExpect(jsonPath("$[1].lastName",is("User")));
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].username", is("userPierwszy")))
+                .andExpect(jsonPath("$[0].firstName", is("Pierwszy")))
+                .andExpect(jsonPath("$[0].lastName", is("User")))
+                .andExpect(jsonPath("$[1].username", is("userDrugi")))
+                .andExpect(jsonPath("$[1].firstName", is("Drugi")))
+                .andExpect(jsonPath("$[1].lastName", is("User")));
     }
 
     @Test
-    public void getUsersList_UsersNotExist() throws Exception
-    {
+    public void getUsersList_UsersNotExist() throws Exception {
         when(userService.getAll()).thenReturn(Arrays.asList());
-        mockMvc.perform(get("/user/getall"))
+
+        mockMvc.perform(get("/user"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$",hasSize(0)));
+                .andExpect(jsonPath("$", hasSize(0)));
     }
 
     @Test
-    public void changeUserPassword_UserNotExist() throws Exception
-    {
-        when(userService.getUser("userPierwszy")).thenReturn(null);
+    public void getUser_UserNotExist() throws Exception {
 
-        mockMvc.perform(post("/user/change_password")
-                .param("userName","userPierwszy")
-                .param("oldPassword","Password")
-                .param("newPassword","NewPassword")
-                .param("matchNewPassword","NewPass"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Failed: user does not exist"));
+            mockMvc.perform(get("/user/1"))
+                    .andExpect(status().isOk())
+                    .andExpect(content().string(""));
     }
 
     @Test
-    public void changeUserPassword_PasswordsArentSame() throws Exception
-    {
-        User first = new User();
-        first.setFirstName("Pierwszy");
-        first.setLastName("User");
-        first.setUsername("userPierwszy");
+    public void getUser_UserExist() throws Exception {
+        User user = new User();
+        user.setFirstName("Pierwszy");
+        user.setLastName("User");
+        user.setUsername("userPierwszy");
+        user.setPassword("pass");
+
+        when(userService.getUser(1)).thenReturn(user);
+        mockMvc.perform(get("/user/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$username", is("userPierwszy")))
+                .andExpect(jsonPath("$firstName", is("Pierwszy")))
+                .andExpect(jsonPath("$lastName", is("User")));
+    }
+
+    @Test
+    public void save_UserExist() throws Exception {
+
+        User user = new User();
+        user.setFirstName("Pierwszy");
+        user.setLastName("User");
+        user.setUsername("userPierwszy");
+        user.setEmail("a@a.com");
+        user.setPassword("pass");
+        user.setId(1);
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        user.setPassword(encoder.encode("Password"));
+        UserDTO dto = UserMapper.map(user);
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(dto);
+        when(userService.getUser(user.getId())).thenReturn(user);
+        when(userService.getUser(user.getUsername())).thenReturn(user);
+        when(userService.getUserByEmail(user.getEmail())).thenReturn(user);
 
-        first.setPassword(encoder.encode("Password"));
-
-        when(userService.getUser("userPierwszy")).thenReturn(first);
-
-
-        mockMvc.perform(post("/user/change_password")
-
-
-                .param("userName","userPierwszy")
-                .param("oldPassword","Password")
-                .param("newPassword","NewPassword")
-                .param("matchNewPassword","NewPass"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Failed: passwords are not the same"));
+        mockMvc.perform(put("/user")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isConflict());
     }
 
-   @Test
-    public void changeUserPassword_OldPasswordIsWrong() throws Exception
-    {
-        User first = new User();
-        first.setFirstName("Pierwszy");
-        first.setLastName("User");
-        first.setUsername("userPierwszy");
+    @Test
+    public void save_UserNotExist() throws Exception {
+        try {
+            User user = new User();
+            user.setFirstName("Pierwszy");
+            user.setLastName("User");
+            user.setUsername("userPierwszy");
+            user.setEmail("a@a.com");
+            user.setPassword("pass");
+
+            UserDTO dto = UserMapper.map(user);
+            ObjectMapper mapper = new ObjectMapper();
+            String json = mapper.writeValueAsString(dto);
+
+            mockMvc.perform(put("/user")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(json))
+                    .andExpect(status().isOk());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void update_UserExist() throws Exception {
+
+        User user = new User();
+        user.setFirstName("Pierwszy");
+        user.setLastName("User");
+        user.setUsername("userPierwszy");
+        user.setEmail("a@a.com");
+        user.setPassword("pass");
+        user.setId(1);
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        first.setPassword(encoder.encode("Password"));
+        user.setPassword(encoder.encode("Password"));
+        UserDTO dto = UserMapper.map(user);
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(dto);
 
-        when(userService.getUser("userPierwszy")).thenReturn(first);
+        when(userService.getUser(1)).thenReturn(user);
 
-
-        mockMvc.perform(post("/user/change_password")
-
-
-                .param("userName","userPierwszy")
-                .param("oldPassword","Pass")
-                .param("newPassword","NewPass")
-                .param("matchNewPassword","NewPas0s"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Failed: old password is wrong"));
+        mockMvc.perform(post("/user")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void changeUserPassword_Success() throws Exception
-    {
-        User first = new User();
-        first.setFirstName("Pierwszy");
-        first.setLastName("User");
-        first.setUsername("userPierwszy");
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        first.setPassword(encoder.encode("Password"));
+    public void update_UserNotExist() throws Exception {
 
-        when(userService.getUser("userPierwszy")).thenReturn(first);
+        User user = new User();
+        user.setFirstName("Pierwszy");
+        user.setLastName("User");
+        user.setUsername("userPierwszy");
 
-        mockMvc.perform(post("/user/change_password")
-                .param("userName","userPierwszy")
-                .param("oldPassword","Password")
-                .param("newPassword","NewPass")
-                .param("matchNewPassword","NewPass"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Success : password was changed"));
+        user.setPassword("pass");
+        UserDTO dto = UserMapper.map(user);
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(dto);
+
+
+        mockMvc.perform(post("/user")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isConflict());
     }
 
     @Test
-    public void saveNewUser_UserExist() throws Exception
-    {
+    public void update_EmailConflict() throws Exception {
 
-        User first = new User();
-        first.setFirstName("Pierwszy");
-        first.setLastName("User");
-        first.setUsername("userPierwszy");
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        first.setPassword(encoder.encode("Password"));
+        User user = new User();
+        user.setEmail("a@a.com");
+        user.setId(1);
+        user.setPassword("pass");
+        UserDTO dto = UserMapper.map(user);
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(dto);
 
-        when(userService.getUser("userPierwszy")).thenReturn(first);
+        User user2 = new User();
+        user2.setId(2);
+        user2.setEmail("a@a.com");
 
-        mockMvc.perform(post("/user/save")
-                .param("userName","userPierwszy")
-                .param("firstName","firstname")
-                .param("lastName","lastname")
-                .param("password","Password")
-                .param("matchPassword","Password")
-                .param("email","email@email.com"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Failed: User exist"));
+        when(userService.getUserByEmail("a@a.com")).thenReturn(user2);
+
+        mockMvc.perform(post("/user")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isConflict());
     }
 
     @Test
-    public void saveNewUser_PasswordsArentSame() throws Exception
-    {
-        when(userService.getUser("userPierwszy")).thenReturn(null);
-        mockMvc.perform(post("/user/save")
-                .param("userName","userPierwszy")
-                .param("firstName","firstname")
-                .param("lastName","lastname")
-                .param("password","Password")
-                .param("matchPassword","Pass")
-                .param("email","email@email.com"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Failed: passwords aren't the same"));
+    public void delete_UserNotExist() throws Exception {
+
+        User user = new User();
+        user.setId(1);
+        user.setPassword("pass");
+        UserDTO dto = UserMapper.map(user);
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(dto);
+
+        mockMvc.perform(delete("/user")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isConflict());
     }
 
     @Test
-    public void saveNewUser_Success() throws Exception
-    {
-        when(userService.getUser("userPierwszy")).thenReturn(null);
-        mockMvc.perform(post("/user/save")
-                .param("userName","userPierwszy")
-                .param("firstName","firstname")
-                .param("lastName","lastname")
-                .param("password","Password")
-                .param("matchPassword","Password")
-                .param("email","email@email.com"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Success : User saved"));
+    public void delete_UserExist() throws Exception {
+
+        User user = new User();
+        user.setId(1);
+        user.setPassword("pass");
+        UserDTO dto = UserMapper.map(user);
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(dto);
+
+        when(userService.getUser(1)).thenReturn(user);
+
+        mockMvc.perform(delete("/user")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isOk());
     }
 }
