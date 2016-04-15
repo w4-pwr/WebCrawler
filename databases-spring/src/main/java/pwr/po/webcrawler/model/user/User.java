@@ -24,11 +24,13 @@ public class User implements UserDetails, Serializable {
 
     public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
+    int x ;
+
+
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
 
     private String username;
 
@@ -73,6 +75,7 @@ public class User implements UserDetails, Serializable {
     }
 
     public User(Long id, String username, String firstName, String lastName) {
+        this.id = id;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -80,6 +83,8 @@ public class User implements UserDetails, Serializable {
 
     public User() {
     }
+
+
 
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
