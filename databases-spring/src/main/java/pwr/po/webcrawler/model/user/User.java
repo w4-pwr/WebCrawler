@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pwr.po.webcrawler.model.Preferences;
+import pwr.po.webcrawler.model.Query;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -58,6 +59,9 @@ public class User implements UserDetails, Serializable {
     @OneToOne
     @JoinColumn(name = "preferences_id")
     private Preferences preferences;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.PERSIST)
+    private Query query;
 
     public void setPassword(String password) {
         this.password = password;
