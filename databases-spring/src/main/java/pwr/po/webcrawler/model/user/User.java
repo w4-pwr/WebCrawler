@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -59,8 +60,8 @@ public class User implements UserDetails, Serializable {
     @JoinColumn(name = "preferences_id", nullable = true)
     private Preferences preferences;
 
-//    @OneToMany(mappedBy = "user",cascade = CascadeType.PERSIST)
-//    private Query query;
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private Set<Query> query;
 
     public void setPassword(String password) {
         this.password = password;

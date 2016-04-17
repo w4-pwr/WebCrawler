@@ -6,6 +6,7 @@ import pwr.po.webcrawler.model.user.User;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by Rafal Pieniazek on 2016-04-15.
@@ -29,8 +30,8 @@ public class Query {
 
     private Date addedDate;
 
- //   @OneToMany(mappedBy = "query",cascade = CascadeType.ALL)
-//    private Result result;
+   @OneToMany(mappedBy = "query",cascade = CascadeType.ALL)
+    private Set<Result> result;
 }
 
 enum Status{
