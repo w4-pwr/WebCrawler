@@ -20,7 +20,7 @@ public class UserMapper {
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
         user.setUsername(dto.getUsername());
-        user.setRole(UserRole.USER);
+        user.setRole(dto.getRole());
         user.setRegistrationDate(dto.getRegistrationDate());
         if (dto.getPassword() != null)
             user.setPassword(encoder.encode(dto.getPassword()));

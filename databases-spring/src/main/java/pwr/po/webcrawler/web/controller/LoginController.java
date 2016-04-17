@@ -26,10 +26,6 @@ public class LoginController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
         User user = userService.getUser(username);
-        //TODO return UserDTO
         return UserMapper.map(user);
     }
-
-
-
 }

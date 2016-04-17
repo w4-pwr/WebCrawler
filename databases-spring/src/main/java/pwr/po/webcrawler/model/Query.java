@@ -47,3 +47,9 @@ public class Query {
         return result;
     }
 }
+
+enum Status{
+    PENDING, ACTIVE, COMPLETED
+}
+
+

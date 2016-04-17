@@ -2,6 +2,7 @@ package pwr.po.webcrawler.web.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import pwr.po.webcrawler.model.user.User;
 import pwr.po.webcrawler.model.user.UserRole;
 
 import java.util.Date;
