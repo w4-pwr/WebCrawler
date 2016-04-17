@@ -26,6 +26,7 @@ public class User implements UserDetails, Serializable {
 
     public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
+
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.AUTO)

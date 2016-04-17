@@ -9,7 +9,6 @@ import pwr.po.webcrawler.model.user.User;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-
 /**
  * Created by Rafal Pieniazek on 2016-04-15.
  * Entity table represents query added by user
