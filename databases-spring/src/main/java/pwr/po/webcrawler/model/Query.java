@@ -29,6 +29,12 @@ public class Query {
 
     private Date addedDate;
 
-    @OneToMany(mappedBy = "query",cascade = CascadeType.ALL)
-    private Result result;
+ //   @OneToMany(mappedBy = "query",cascade = CascadeType.ALL)
+//    private Result result;
 }
+
+enum Status{
+    PENDING, ACTIVE, COMPLETED
+}
+
+

@@ -31,5 +31,4 @@ public class UserDTO {
     private String email;
 
     private UserRole role;
-
 }
