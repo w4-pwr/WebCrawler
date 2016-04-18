@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,9 +24,6 @@ import java.util.HashSet;
 public class User implements UserDetails, Serializable {
 
     public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
-
-    int x ;
-
 
     @Id
     @Column(name = "user_id")
@@ -61,7 +59,7 @@ public class User implements UserDetails, Serializable {
     private Preferences preferences;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.PERSIST)
-    private Query query;
+    private List<Query> query;
 
     public void setPassword(String password) {
         this.password = password;
