@@ -40,7 +40,8 @@ public class QueryController {
         List<QueryDTO> result = new ArrayList<>();
         for(Query query : list)
         {
-            result.add(QueryMapper.map(query));
+            QueryDTO dto = QueryMapper.map(query);
+            result.add(dto);
         }
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
@@ -50,11 +51,11 @@ public class QueryController {
     {
         if(queryDTO==null)
         {
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        if(queryDTO.getUser()==null && queryDTO.getUser().getId()<0)
+        if(queryDTO.getUserId()<0)
         {
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         queryDTO.setAddedDate(new Date());
         queryService.save(QueryMapper.map(queryDTO));

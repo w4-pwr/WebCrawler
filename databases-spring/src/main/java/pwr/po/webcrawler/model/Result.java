@@ -1,5 +1,6 @@
 package pwr.po.webcrawler.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,6 +24,12 @@ public class Result {
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "query_id")
     private Query query;
+
+    @JsonBackReference
+    public Query getQuery()
+    {
+        return query;
+    }
 
     private String resultUrl;
 
