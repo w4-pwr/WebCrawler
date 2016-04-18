@@ -16,7 +16,7 @@ import java.util.List;
 public class QueryDTO {
     private Long id;
 
-    private User user;
+    private long userId;
 
     private String keyword;
 

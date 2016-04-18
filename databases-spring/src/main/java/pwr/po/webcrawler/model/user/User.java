@@ -1,5 +1,6 @@
 package pwr.po.webcrawler.model.user;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -58,8 +59,14 @@ public class User implements UserDetails, Serializable {
     @JoinColumn(name = "preferences_id")
     private Preferences preferences;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<Query> query;
+
+    @JsonManagedReference
+    public List<Query> getQuery()
+    {
+        return query;
+    }
 
     public void setPassword(String password) {
         this.password = password;
@@ -80,6 +87,7 @@ public class User implements UserDetails, Serializable {
     }
 
     public User() {
+
     }
 
 
