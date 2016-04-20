@@ -43,10 +43,9 @@ public class UserControllerTest {
     @Autowired
     ApplicationContext context;
 
+
     @Before
     public void setUp() {
-
-
         mockMvc = MockMvcBuilders.standaloneSetup(userControllerMock).build();
     }
 
