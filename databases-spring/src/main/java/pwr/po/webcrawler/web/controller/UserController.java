@@ -55,7 +55,7 @@ public class UserController {
         dto.setRegistrationDate(new Date());
 
         byte[] b = new byte[20];
-        new Random().nextBytes(new byte[20]);
+        new Random().nextBytes(b);
         dto.setToken((DigestUtils.md5DigestAsHex(b)));
 
         userService.save(UserMapper.map(dto));
