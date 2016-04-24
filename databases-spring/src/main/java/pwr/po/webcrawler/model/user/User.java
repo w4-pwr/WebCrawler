@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pwr.po.webcrawler.model.Preferences;
+import pwr.po.webcrawler.model.Query;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,7 +25,6 @@ public class User implements UserDetails, Serializable {
     public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     int x ;
-
 
     @Id
     @Column(name = "user_id")
@@ -54,10 +54,18 @@ public class User implements UserDetails, Serializable {
     @Column(name = "registration_date")
     private Date registrationDate;
 
+    @Column(name = "enabled")
+    private boolean enabled;
+
+    @Column(name = "token")
+    private String token;
 
     @OneToOne
     @JoinColumn(name = "preferences_id")
     private Preferences preferences;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.PERSIST)
+    private Query query;
 
     public void setPassword(String password) {
         this.password = password;

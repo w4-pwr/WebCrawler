@@ -67,7 +67,7 @@ public class UserControllerTest {
 
         when(userService.getAll()).thenReturn(Arrays.asList(first, second));
 
-        mockMvc.perform(get("/user"))
+        mockMvc.perform(get("/users"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].username", is("userPierwszy")))
@@ -82,7 +82,7 @@ public class UserControllerTest {
     public void getUsersList_UsersNotExist() throws Exception {
         when(userService.getAll()).thenReturn(Arrays.asList());
 
-        mockMvc.perform(get("/user"))
+        mockMvc.perform(get("/users"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
     }
@@ -90,7 +90,7 @@ public class UserControllerTest {
     @Test
     public void getUser_UserNotExist() throws Exception {
 
-            mockMvc.perform(get("/user/1"))
+            mockMvc.perform(get("/users/1"))
                     .andExpect(status().isOk())
                     .andExpect(content().string(""));
     }
@@ -104,7 +104,7 @@ public class UserControllerTest {
         user.setPassword("pass");
 
         when(userService.getUser(1)).thenReturn(user);
-        mockMvc.perform(get("/user/1"))
+        mockMvc.perform(get("/users/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$username", is("userPierwszy")))
                 .andExpect(jsonPath("$firstName", is("Pierwszy")))
@@ -130,7 +130,7 @@ public class UserControllerTest {
         when(userService.getUser(user.getUsername())).thenReturn(user);
         when(userService.getUserByEmail(user.getEmail())).thenReturn(user);
 
-        mockMvc.perform(put("/user")
+        mockMvc.perform(put("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isConflict());
@@ -150,7 +150,7 @@ public class UserControllerTest {
             ObjectMapper mapper = new ObjectMapper();
             String json = mapper.writeValueAsString(dto);
 
-            mockMvc.perform(put("/user")
+            mockMvc.perform(put("/users")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(json))
                     .andExpect(status().isOk());
@@ -177,7 +177,7 @@ public class UserControllerTest {
 
         when(userService.getUser(1)).thenReturn(user);
 
-        mockMvc.perform(post("/user")
+        mockMvc.perform(post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isOk());
@@ -197,7 +197,7 @@ public class UserControllerTest {
         String json = mapper.writeValueAsString(dto);
 
 
-        mockMvc.perform(post("/user")
+        mockMvc.perform(post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isConflict());
@@ -220,7 +220,7 @@ public class UserControllerTest {
 
         when(userService.getUserByEmail("a@a.com")).thenReturn(user2);
 
-        mockMvc.perform(post("/user")
+        mockMvc.perform(post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isConflict());
@@ -236,7 +236,7 @@ public class UserControllerTest {
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(dto);
 
-        mockMvc.perform(delete("/user")
+        mockMvc.perform(delete("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isConflict());
@@ -254,7 +254,7 @@ public class UserControllerTest {
 
         when(userService.getUser(1)).thenReturn(user);
 
-        mockMvc.perform(delete("/user")
+        mockMvc.perform(delete("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isOk());
