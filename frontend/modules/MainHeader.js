@@ -7,27 +7,27 @@ export default React.createClass({
     render() {
         this.backendUrl = 'http://webcrawlerbs.pyphqhigf5.us-west-2.elasticbeanstalk.com/';
         window._MainHeader = this;
-        return <header className="main-header">
+        return <header className='main-header'>
 
             {/* Logo */}
-            <a href="index2.html" className="logo">
+            <a href='index2.html' className='logo'>
                 {/* mini logo for sidebar mini 50x50 pixels */}
-                <span className="logo-mini"><b>W</b>Cr</span>
+                <span className='logo-mini'><b>W</b>Cr</span>
                 {/* logo for regular state and mobile devices */}
-                <span className="logo-lg"><b>Web</b>Crawler</span>
+                <span className='logo-lg'><b>Web</b>Crawler</span>
             </a>
 
             {/* Header Navbar */}
-            <nav className="navbar navbar-static-top" role="navigation">
+            <nav className='navbar navbar-static-top' role='navigation'>
                 {/* Sidebar toggle button*/}
-                <a href="#" className="sidebar-toggle" data-toggle="offcanvas" role="button">
-                    <span className="sr-only">Toggle navigation</span>
+                <a href='#' className='sidebar-toggle' data-toggle='offcanvas' role='button'>
+                    <span className='sr-only'>Toggle navigation</span>
                 </a>
-                {/*<form action="#" method="get" className="sidebar-form">
-                    <div className="input-group">
-                      <input type="text" name="q" className="form-control" placeholder="Search..." style={{backgroundImage: 'none', backgroundPosition: '0% 0%', backgroundRepeat: 'repeat'}} />
-                      <span className="input-group-btn">
-                        <button type="submit" name="search" id="search-btn" className="btn btn-flat"><i className="fa fa-search" />
+                {/*<form action='#' method='get' className='sidebar-form'>
+                    <div className='input-group'>
+                      <input type='text' name='q' className='form-control' placeholder='Search...' style={{backgroundImage: 'none', backgroundPosition: '0% 0%', backgroundRepeat: 'repeat'}} />
+                      <span className='input-group-btn'>
+                        <button type='submit' name='search' id='search-btn' className='btn btn-flat'><i className='fa fa-search' />
                         </button>
                       </span>
                     </div>
@@ -35,7 +35,7 @@ export default React.createClass({
 
 
                 {/* Navbar Right Menu */}
-                <div className="navbar-custom-menu">
+                <div className='navbar-custom-menu'>
                     {this.renderDropdowns()}
                 </div>
             </nav>
@@ -44,13 +44,13 @@ export default React.createClass({
     renderDropdowns() {
         var Token = localStorage.getItem('token');
         if (Token) {
-            return <ul className="nav navbar-nav">
-                <li className="dropdown user user-menu">
-                    <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                        <span className="hidden-xs">Your profile</span>
+            return <ul className='nav navbar-nav'>
+                <li className='dropdown user user-menu'>
+                    <a href='#' className='dropdown-toggle' data-toggle='dropdown'>
+                        <span className='hidden-xs'>Your profile</span>
                     </a>
-                    <ul className="dropdown-menu">
-                        <li className="user-header account">
+                    <ul className='dropdown-menu'>
+                        <li className='user-header account'>
                             <div>{this.data.user.firstName} {this.data.user.lastName}, {this.data.user.username}</div>
                             <div>{this.data.user.email}</div>
                             {(()=>{
@@ -64,21 +64,21 @@ export default React.createClass({
                     </ul>
                 </li>
                 <li>
-                    <a href="#" className="dropdown-toggle" onClick={this.signOut}>
-                        <span className="hidden-xs">Sign out</span>
+                    <a href='#' className='dropdown-toggle' onClick={this.signOut}>
+                        <span className='hidden-xs'>Sign out</span>
                     </a>
                 </li>
             </ul>
         } else {
-            return <ul className="nav navbar-nav">
-                <li className="dropdown user user-menu">
+            return <ul className='nav navbar-nav'>
+                <li className='dropdown user user-menu'>
                     {/* Menu Sign up */}
 
-                    <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                        <span className="hidden-xs2">Sign up</span>
+                    <a href='#' className='dropdown-toggle' data-toggle='dropdown'>
+                        <span className='hidden-xs2'>Sign up</span>
                     </a>
-                    <ul className="dropdown-menu">
-                        <li className="user-header sign-up">
+                    <ul className='dropdown-menu'>
+                        <li className='user-header sign-up'>
                             <input id='username' className='form-control' type='text' placeholder='username' />
                             <input id='email' className='form-control' type='text' placeholder='email' />
                             <input id='firstname' className='form-control' type='text' placeholder='first name' />
@@ -86,29 +86,29 @@ export default React.createClass({
                             <input id='password' className='form-control' type='password' placeholder='password' />
                             <input id='password2' className='form-control' type='password' placeholder='re-type password' />
                         </li>
-                        <li className="user-footer">
+                        <li className='user-footer'>
 
-                            <div className="pull-right">
-                                <a className="btn btn-default btn-flat" onClick={this.signUp}>Sign up</a>
+                            <div className='pull-right'>
+                                <a className='btn btn-default btn-flat' onClick={this.signUp}>Sign up</a>
                             </div>
                         </li>
                     </ul>
                 </li>
-                <li className="dropdown user user-menu">
+                <li className='dropdown user user-menu'>
                     {/* Menu Sign in */}
 
-                    <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                        <span className="hidden-xs">Sign in</span>
+                    <a href='#' className='dropdown-toggle' data-toggle='dropdown'>
+                        <span className='hidden-xs'>Sign in</span>
                     </a>
-                    <ul className="dropdown-menu">
-                        <li className="user-header sign-in">
+                    <ul className='dropdown-menu'>
+                        <li className='user-header sign-in'>
                             <input id='email' className='form-control' type='text' placeholder='email' />
                             <input id='password' className='form-control' type='password' placeholder='password' />
 
                         </li>
-                        <li className="user-footer">
-                            <div className="pull-right">
-                                <a className="btn btn-default btn-flat" onClick={this.signIn}>Sign in</a>
+                        <li className='user-footer'>
+                            <div className='pull-right'>
+                                <a className='btn btn-default btn-flat' onClick={this.signIn}>Sign in</a>
                             </div>
                         </li>
                     </ul>
@@ -139,8 +139,8 @@ export default React.createClass({
 
         var xhttp = new XMLHttpRequest();
 
-        if (password =="" || password2=="" || username =="" || firstname =="" || email=="" || lastname=="") {
-            alert("Fill all spaces to register");
+        if (!(password && password2 && username && firstname && email && lastname)) {
+            alert('Fill all spaces to register');
         } else {
             if (password.length > 7) {
                 if (password == password2) {
@@ -160,10 +160,10 @@ export default React.createClass({
                     xhttp.open('PUT', this.backendUrl + 'user' , true);
                     xhttp.send(params);
                 } else {
-                    alert("Passwords don't match, Fill them correctly.");
+                    alert('Passwords don\'t match, Fill them correctly.');
                 }
             } else {
-                alert ("Password must be at least 8 characters long");
+                alert ('Password must be at least 8 characters long');
             }
         }
 
