@@ -1,6 +1,5 @@
 package pwr.po.webcrawler.service.user;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,6 +29,8 @@ public class UserServiceImpl implements  UserService ,UserDetailsService{
     public User getUser(long id) {
         return userRepository.findOne(id);
     }
+
+    public User getUserByToken(String token) { return userRepository.findByToken(token);    }
 
     public User getUser(String username){
         return userRepository.findByUsername(username);
