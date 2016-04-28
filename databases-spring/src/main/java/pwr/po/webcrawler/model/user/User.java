@@ -80,7 +80,6 @@ public class User implements UserDetails, Serializable {
         this.password = password;
     }
 
-
     public User(String username, String firstName, String lastName) {
         this.username = username;
         this.firstName = firstName;
@@ -96,8 +95,6 @@ public class User implements UserDetails, Serializable {
 
     public User() {
     }
-
-
 
     @Override
     public Collection<GrantedAuthority> getAuthorities() {

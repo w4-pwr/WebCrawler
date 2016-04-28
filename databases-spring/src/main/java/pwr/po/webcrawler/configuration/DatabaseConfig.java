@@ -55,10 +55,8 @@ public class DatabaseConfig {
         return hibernateJpaVendorAdapter;
     }
 
-
     @Bean
     public EntityManagerFactory entityManagerFactory() {
-
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setGenerateDdl(true);
 
@@ -75,7 +73,6 @@ public class DatabaseConfig {
 
     @Bean
     public PlatformTransactionManager transactionManager() {
-
         JpaTransactionManager txManager = new JpaTransactionManager();
         txManager.setEntityManagerFactory(entityManagerFactory());
         return txManager;
