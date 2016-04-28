@@ -1,7 +1,11 @@
 import React from 'react'
 
 export default React.createClass({
+    componentWillMount() {
+        this.data = {user: {}};   
+    },
     render() {
+        this.backendUrl = 'http://webcrawlerbs.pyphqhigf5.us-west-2.elasticbeanstalk.com/';
         window._MainHeader = this;
         return <header className="main-header">
 
@@ -19,6 +23,17 @@ export default React.createClass({
                 <a href="#" className="sidebar-toggle" data-toggle="offcanvas" role="button">
                     <span className="sr-only">Toggle navigation</span>
                 </a>
+                {/*<form action="#" method="get" className="sidebar-form">
+                    <div className="input-group">
+                      <input type="text" name="q" className="form-control" placeholder="Search..." style={{backgroundImage: 'none', backgroundPosition: '0% 0%', backgroundRepeat: 'repeat'}} />
+                      <span className="input-group-btn">
+                        <button type="submit" name="search" id="search-btn" className="btn btn-flat"><i className="fa fa-search" />
+                        </button>
+                      </span>
+                    </div>
+                </form>*/}
+
+
                 {/* Navbar Right Menu */}
                 <div className="navbar-custom-menu">
                     {this.renderDropdowns()}
@@ -36,7 +51,15 @@ export default React.createClass({
                     </a>
                     <ul className="dropdown-menu">
                         <li className="user-header account">
-                            {/*tutaj uzyc tokena*/}
+                            <div>{this.data.user.firstName} {this.data.user.lastName}, {this.data.user.username}</div>
+                            <div>{this.data.user.email}</div>
+                            {(()=>{
+                                if (this.data.user.role == 'ADMIN') {
+                                    return <div>ADMINISTRATOR</div>                                
+                                } else {
+                                    return null;
+                                }
+                            })()}
                         </li>
                     </ul>
                 </li>
@@ -93,6 +116,17 @@ export default React.createClass({
             </ul>
         }
     },
+    getUserData() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+                this.data.user = JSON.parse(xhttp.responseText);
+                this.forceUpdate();
+            }
+        };
+        xhttp.open('GET', this.backendUrl + 'user/'+localStorage.getItem('token') , true);
+        xhttp.send();
+    },
     signUp(e) {
         var $menu = $(e.target).closest('.dropdown-menu');
         var email = $menu.find('#email')[0].value;
@@ -101,43 +135,37 @@ export default React.createClass({
         var username = $menu.find('#username')[0].value;
         var firstname = $menu.find('#firstname')[0].value;
         var lastname = $menu.find('#lastname')[0].value;
-        var registrationDate= new Date().toJSON().slice(0,10);
+        //var registrationDate= new Date().toJSON().slice(0,10);
 
         var xhttp = new XMLHttpRequest();
 
-        function check() {
-            if (password =="" || password2=="" || username =="" || firstname =="" || email=="" || lastname=="") {
-                alert("Fill all spaces to register");
-            }
-            else {
-                if (password.length > 7) {
-                    if (password == password2) {
-                        xhttp.onreadystatechange = function () {
-                            if (xhttp.readyState == 4 && xhttp.status == 200) {
-                                console.log(xhttp.responseText);
-                            }
-                        };
-                        var params = JSON.stringify({
-                            email: email,
-                            password: password,
-                            username: username,
-                            firstName: firstname,
-                            lastName: lastname,
-                            registrationDate: registrationDate,
-                        })
-                        xhttp.open('POST', 'registration' , true);
-                        xhttp.send(params);
-                    }
-                    else {
-                        alert("Passwords not match, Fill them correctly.");
-                    }
+        if (password =="" || password2=="" || username =="" || firstname =="" || email=="" || lastname=="") {
+            alert("Fill all spaces to register");
+        } else {
+            if (password.length > 7) {
+                if (password == password2) {
+                    xhttp.onreadystatechange = function () {
+                        if (xhttp.readyState == 4 && xhttp.status == 200) {
+                            console.log(xhttp.responseText);
+                        }
+                    };
+                    var params = JSON.stringify({
+                        email: email,
+                        password: password,
+                        username: username,
+                        firstName: firstname,
+                        lastName: lastname,
+                        //registrationDate: registrationDate,
+                    })
+                    xhttp.open('PUT', this.backendUrl + 'user' , true);
+                    xhttp.send(params);
+                } else {
+                    alert("Passwords don't match, Fill them correctly.");
                 }
-                else {
-                    alert ("Password must be at least 8 characters long");
-                }
+            } else {
+                alert ("Password must be at least 8 characters long");
             }
         }
-        check();
 
     },
     signIn(e) {
@@ -153,16 +181,16 @@ export default React.createClass({
             	console.log(xhttp.responseText);
             	if (Token) {
                 	localStorage.setItem('token', Token);
-                	this.forceUpdate();
                 }
             }
         };
-        xhttp.open('POST', 'signIn?email='+email+'&password='+password, true);
+        xhttp.open('POST', this.backendUrl + 'login?email='+email+'&password='+password, true);
         xhttp.send();
     },
     signOut() {
-    	if(localStorage.getItem('token') != null)
+    	if (localStorage.getItem('token') != null) {
     		localStorage.removeItem('token');
+        }
     },
     componentDidMount() {
         $('.dropdown-menu .user-header').click(function(e) {
