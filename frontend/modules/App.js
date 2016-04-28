@@ -12,15 +12,7 @@ export default React.createClass({
             
             {/* sidebar: style can be found in sidebar.less */}
             <section className="sidebar">
-                <form action="#" method="get" className="sidebar-form">
-                    <div className="input-group">
-                      <input type="text" name="q" className="form-control" placeholder="Search..." style={{backgroundImage: 'none', backgroundPosition: '0% 0%', backgroundRepeat: 'repeat'}} />
-                      <span className="input-group-btn">
-                        <button type="submit" name="search" id="search-btn" className="btn btn-flat"><i className="fa fa-search" />
-                        </button>
-                      </span>
-                    </div>
-                </form>
+
               {/* Sidebar Menu */}
               <ul className="sidebar-menu">
                 <li className="header">HEADER</li>
@@ -39,26 +31,8 @@ export default React.createClass({
             </section>
             {/* /.sidebar */}
             </aside>
-
-            {/* Content Wrapper. Contains page content */}
-            <div className="content-wrapper">
-            {/* Content Header (Page header) */}
-            <section className="content-header">
-              <h1>
-                Page Header
-                <small>Optional description</small>
-              </h1>
-            </section>
-
-            {/* Main content */}
-            <section className="content">
-
-              {/* Your Page Content Here */}
-
-            </section>
-            {/* /.content */}
-            </div>
-            {/* /.content-wrapper */}
+            
+            {this.props.main}
 
             {/* Control Sidebar */}
             <aside className="control-sidebar control-sidebar-dark">

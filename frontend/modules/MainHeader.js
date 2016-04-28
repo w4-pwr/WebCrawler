@@ -1,16 +1,13 @@
 import React from 'react'
 
 export default React.createClass({
-    componentWillMount() {
-        this.data = {user: {}};   
-    },
     render() {
         this.backendUrl = 'http://webcrawlerbs.pyphqhigf5.us-west-2.elasticbeanstalk.com/';
         window._MainHeader = this;
         return <header className="main-header">
 
             {/* Logo */}
-            <a href="index2.html" className="logo">
+            <a href="#" className="logo">
                 {/* mini logo for sidebar mini 50x50 pixels */}
                 <span className="logo-mini"><b>W</b>Cr</span>
                 {/* logo for regular state and mobile devices */}
@@ -46,22 +43,9 @@ export default React.createClass({
         if (Token) {
             return <ul className="nav navbar-nav">
                 <li className="dropdown user user-menu">
-                    <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+                    <a href="#/profile" className="dropdown-toggle">
                         <span className="hidden-xs">Your profile</span>
                     </a>
-                    <ul className="dropdown-menu">
-                        <li className="user-header account">
-                            <div>{this.data.user.firstName} {this.data.user.lastName}, {this.data.user.username}</div>
-                            <div>{this.data.user.email}</div>
-                            {(()=>{
-                                if (this.data.user.role == 'ADMIN') {
-                                    return <div>ADMINISTRATOR</div>                                
-                                } else {
-                                    return null;
-                                }
-                            })()}
-                        </li>
-                    </ul>
                 </li>
                 <li>
                     <a href="#" className="dropdown-toggle" onClick={this.signOut}>
@@ -115,17 +99,6 @@ export default React.createClass({
                 </li>
             </ul>
         }
-    },
-    getUserData() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (xhttp.readyState == 4 && xhttp.status == 200) {
-                this.data.user = JSON.parse(xhttp.responseText);
-                this.forceUpdate();
-            }
-        };
-        xhttp.open('GET', this.backendUrl + 'user/'+localStorage.getItem('token') , true);
-        xhttp.send();
     },
     signUp(e) {
         var $menu = $(e.target).closest('.dropdown-menu');
