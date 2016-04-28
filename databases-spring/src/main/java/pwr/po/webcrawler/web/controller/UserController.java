@@ -36,10 +36,10 @@ public class UserController {
     }
 
     @RequestMapping(value = "{id}", method = GET)
-    public UserDTO getUser(@PathVariable Long id)
-    {User user = userService.getUser(id);
-        if(user == null){
-
+    public UserDTO getUser(@PathVariable Long id) {
+        User user = userService.getUser(id);
+        if (user == null) {
+          // TODO
         }
         return UserMapper.map(user);
     }
@@ -62,11 +62,11 @@ public class UserController {
 
     @RequestMapping(method = POST)
     public ResponseEntity<String> update(@RequestBody UserDTO dto) {
-        if( userService.getUser(dto.getId()) == null){
+        if (userService.getUser(dto.getId()) == null) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         User u = userService.getUserByEmail(dto.getEmail());
-        if ( u != null && u.getId() != dto.getId() && u.getEmail().equals(dto.getEmail())) {
+        if (u != null && u.getId() != dto.getId() && u.getEmail().equals(dto.getEmail())) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
@@ -76,7 +76,7 @@ public class UserController {
 
     @RequestMapping(method = DELETE)
     public ResponseEntity<String> deleteUser(@RequestBody UserDTO user) {
-        if( userService.getUser(user.getId()) == null){
+        if (userService.getUser(user.getId()) == null) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         userService.deleteUser(user.getId());
