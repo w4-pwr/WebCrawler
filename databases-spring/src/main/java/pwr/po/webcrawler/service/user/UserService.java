@@ -4,6 +4,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import pwr.po.webcrawler.model.user.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
 
