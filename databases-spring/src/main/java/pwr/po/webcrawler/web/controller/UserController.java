@@ -12,9 +12,7 @@ import pwr.po.webcrawler.service.user.UserService;
 import pwr.po.webcrawler.web.dto.UserDTO;
 import pwr.po.webcrawler.web.mapper.UserMapper;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
@@ -36,10 +34,10 @@ public class UserController {
     }
 
     @RequestMapping(value = "{id}", method = GET)
-    public UserDTO getUser(@PathVariable Long id) {
-        User user = userService.getUser(id);
-        if (user == null) {
-          // TODO
+    public UserDTO getUser(@PathVariable Long id)
+    {User user = userService.getUser(id);
+        if(user == null){
+
         }
         return UserMapper.map(user);
     }
@@ -56,7 +54,24 @@ public class UserController {
         }
         dto.setRegistrationDate(new Date());
 
+        byte[] b = new byte[20];
+        new Random().nextBytes(b);
+        dto.setToken((DigestUtils.md5DigestAsHex(b)));
+
         userService.save(UserMapper.map(dto));
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(method = PUT, value = "/activate/{token}")
+    public ResponseEntity<String> activateUser(@PathVariable  String token) {
+        User user = userService.getUserByToken(token);
+        if(user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        user.setEnabled(true);
+        userService.save(user);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

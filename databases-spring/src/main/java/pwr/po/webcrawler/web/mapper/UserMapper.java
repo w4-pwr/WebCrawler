@@ -1,7 +1,5 @@
 package pwr.po.webcrawler.web.mapper;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pwr.po.webcrawler.model.user.User;
 import pwr.po.webcrawler.model.user.UserRole;
@@ -17,6 +15,8 @@ public class UserMapper {
         user.setId(dto.getId());
         user.setRole(dto.getRole());
         user.setEmail(dto.getEmail());
+        user.setEnabled(dto.isEnabled());
+        user.setToken(dto.getToken());
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
         user.setUsername(dto.getUsername());
@@ -34,6 +34,8 @@ public class UserMapper {
         dto.setId(user.getId());
         dto.setRole(user.getRole());
         dto.setEmail(user.getEmail());
+        dto.setEnabled(user.isEnabled());
+        dto.setToken(user.getToken());
         dto.setFirstName(user.getFirstName());
         dto.setLastName(user.getLastName());
         dto.setUsername(user.getUsername());

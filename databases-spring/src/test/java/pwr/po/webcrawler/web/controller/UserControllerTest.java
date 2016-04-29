@@ -1,4 +1,4 @@
-package pwr.po.webcrawler.web.controller;
+package pwr.po.webrawler.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -43,10 +43,9 @@ public class UserControllerTest {
     @Autowired
     ApplicationContext context;
 
+
     @Before
     public void setUp() {
-
-
         mockMvc = MockMvcBuilders.standaloneSetup(userControllerMock).build();
     }
 
@@ -89,9 +88,9 @@ public class UserControllerTest {
     @Test
     public void getUser_UserNotExist() throws Exception {
 
-        mockMvc.perform(get("/user/1"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(""));
+            mockMvc.perform(get("/user/1"))
+                    .andExpect(status().isOk())
+                    .andExpect(content().string(""));
     }
 
     @Test
