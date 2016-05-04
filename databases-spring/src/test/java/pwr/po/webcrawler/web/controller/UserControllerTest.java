@@ -108,7 +108,27 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$firstName", is("Pierwszy")))
                 .andExpect(jsonPath("$lastName", is("User")));
     }
+    @Test
+    public void activateUser_UserExist() throws Exception {
+        User user = new User();
+        user.setToken("Token");
+        when(userService.getUserByToken("Token")).thenReturn(user);
 
+        mockMvc.perform(put("/users/activate/"+user.getToken()))
+                .andExpect(status().isOk());
+
+
+    }
+
+
+    @Test
+    public void activateUser_UserNot_Exist() throws Exception{
+        User user = new User();
+        user.setToken("Token");
+        when(userService.getUserByToken("tokenek")).thenReturn(user);
+        mockMvc.perform(get("/users.activate/"+user.getToken()))
+                .andExpect(status().isNotFound());
+    }
     @Test
     public void save_UserExist() throws Exception {
 
