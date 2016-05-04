@@ -111,11 +111,12 @@ public class UserControllerTest {
     @Test
     public void activateUser_UserExist() throws Exception {
         User user = new User();
-        user.setToken("Token");
-        when(userService.getUserByToken("Token")).thenReturn(user);
+        user.setToken("token");
+        when(userService.getUserByToken("token")).thenReturn(user);
 
-        mockMvc.perform(put("/users/activate/"+user.getToken()))
+        mockMvc.perform(put("/user/activate/"+user.getToken()))
                 .andExpect(status().isOk());
+
 
 
     }
@@ -126,8 +127,9 @@ public class UserControllerTest {
         User user = new User();
         user.setToken("Token");
         when(userService.getUserByToken("tokenek")).thenReturn(user);
-        mockMvc.perform(get("/users.activate/"+user.getToken()))
+        mockMvc.perform(put("/user/activate/"+user.getToken()))
                 .andExpect(status().isNotFound());
+
     }
     @Test
     public void save_UserExist() throws Exception {
