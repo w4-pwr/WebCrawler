@@ -1,4 +1,4 @@
-package pwr.po.webrawler.web.controller;
+package pwr.po.webcrawler.web.controller;
 
 import org.junit.Before;
 import org.junit.Test;

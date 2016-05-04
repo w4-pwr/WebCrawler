@@ -103,8 +103,6 @@ public class User implements UserDetails, Serializable {
         return authorities;
     }
 
-
-
     @Override
     public boolean isAccountNonExpired() {
         return true;
