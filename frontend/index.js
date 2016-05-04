@@ -1,11 +1,15 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Router, Route, hashHistory } from 'react-router'
-import Homepage from './modules/Homepage'
+import App from './modules/App'
+import Searches from './modules/Searches'
+import Profile from './modules/Profile'
 
 render((
   <Router history={hashHistory}>
-    <Route path="/" component={Homepage}/>
-    <Route path="/user" component={Homepage}/>
+    <Route component={App}>
+        <Route path="/" components={{main: Searches}} />
+        <Route path="/profile" components={{main: Profile}} />
+    </Route>
   </Router>
 ), document.getElementById('app'))

@@ -1,16 +1,17 @@
 import React from 'react'
 
 export default React.createClass({
-    componentWillMount() {
-        this.data = {user: {}};   
-    },
     render() {
         this.backendUrl = 'http://webcrawlerbs.pyphqhigf5.us-west-2.elasticbeanstalk.com/';
         window._MainHeader = this;
         return <header className='main-header'>
 
             {/* Logo */}
+<<<<<<< HEAD
             <a href='index2.html' className='logo'>
+=======
+            <a href="#" className="logo">
+>>>>>>> 5d0d8ccb2196493843a4c0cb534c5750e91fe019
                 {/* mini logo for sidebar mini 50x50 pixels */}
                 <span className='logo-mini'><b>W</b>Cr</span>
                 {/* logo for regular state and mobile devices */}
@@ -44,7 +45,7 @@ export default React.createClass({
     renderDropdowns() {
         var Token = localStorage.getItem('token');
         if (Token) {
-            return <ul className='nav navbar-nav'>
+            /*return <ul className='nav navbar-nav'>
                 <li className='dropdown user user-menu'>
                     <a href='#' className='dropdown-toggle' data-toggle='dropdown'>
                         <span className='hidden-xs'>Your profile</span>
@@ -61,7 +62,12 @@ export default React.createClass({
                                 }
                             })()}
                         </li>
-                    </ul>
+                    </ul>*/
+            return <ul className="nav navbar-nav">
+                <li className="dropdown user user-menu">
+                    <a href="#/profile" className="dropdown-toggle">
+                        <span className="hidden-xs">Your profile</span>
+                    </a>
                 </li>
                 <li>
                     <a href='#' className='dropdown-toggle' onClick={this.signOut}>
@@ -115,17 +121,6 @@ export default React.createClass({
                 </li>
             </ul>
         }
-    },
-    getUserData() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (xhttp.readyState == 4 && xhttp.status == 200) {
-                this.data.user = JSON.parse(xhttp.responseText);
-                this.forceUpdate();
-            }
-        };
-        xhttp.open('GET', this.backendUrl + 'user/'+localStorage.getItem('token') , true);
-        xhttp.send();
     },
     signUp(e) {
         var $menu = $(e.target).closest('.dropdown-menu');
