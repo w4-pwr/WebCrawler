@@ -6,6 +6,7 @@ import pwr.po.webcrawler.model.Query;
 import pwr.po.webcrawler.model.user.User;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Rafał Niedźwiecki on 17.04.2016.
@@ -15,7 +16,7 @@ public interface QueryRepository extends JpaRepository<Query,Long> {
 
     Query findById(long id);
 
-    List<Query> findByUser(User user);
+    Set<Query> findByUser(User user);
 
     Query findByKeyword(String keyword);
 

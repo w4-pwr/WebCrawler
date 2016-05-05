@@ -14,6 +14,7 @@ import pwr.po.webcrawler.web.mapper.QueryMapper;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Rafał Niedźwiecki on 17.04.2016.
@@ -36,7 +37,7 @@ public class QueryController {
         {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        List<Query> list = queryService.getAllQueryToUser(user);
+        Set<Query> list = queryService.getAllQueryToUser(user);
         List<QueryDTO> result = new ArrayList<>();
         for(Query query : list)
         {

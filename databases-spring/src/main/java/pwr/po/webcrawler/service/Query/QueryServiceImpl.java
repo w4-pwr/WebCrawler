@@ -7,6 +7,7 @@ import pwr.po.webcrawler.model.user.User;
 import pwr.po.webcrawler.repository.QueryRepository;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Rafał Niedźwiecki on 17.04.2016.
@@ -18,7 +19,7 @@ public class QueryServiceImpl implements QueryService {
     QueryRepository queryRepository;
 
     @Override
-    public List<Query> getAllQueryToUser(User user) {
+    public Set<Query> getAllQueryToUser(User user) {
         return queryRepository.findByUser(user);
     }
 

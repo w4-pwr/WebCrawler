@@ -23,7 +23,9 @@ import pwr.po.webcrawler.service.user.UserService;
 import pwr.po.webcrawler.web.dto.QueryDTO;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -104,7 +106,7 @@ public class QueryControllerTest {
         testQuery.setKeyword("Cat");
         testQuery.setId(12l);
         testQuery.setUser(user);
-        List<Query> list = new ArrayList<>();
+        Set<Query> list = new HashSet<>();
         list.add(testQuery);
         user.setQuery(list);
 
@@ -134,7 +136,7 @@ public class QueryControllerTest {
     {
         User user = new User();
         user.setId(1);
-        List<Query> list = new ArrayList<>();
+        Set<Query> list = new HashSet<>();
         user.setQuery(list);
 
         when(userService.getUser(1)).thenReturn((user));

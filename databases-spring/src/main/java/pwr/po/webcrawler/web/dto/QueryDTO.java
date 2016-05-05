@@ -7,6 +7,7 @@ import pwr.po.webcrawler.model.user.User;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Rafał Niedźwiecki on 17.04.2016.
@@ -22,5 +23,5 @@ public class QueryDTO {
 
     private Date addedDate;
 
-    private List<Result> result;
+    private Set<Result> result;
 }
