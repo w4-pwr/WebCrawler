@@ -77,6 +77,7 @@ public class QueryControllerTest {
     @Test
     public void AddQuery_BodyNull() throws Exception
     {
+
         mockMvc.perform(put("/query"))
                 .andExpect(status().isBadRequest());
     }
@@ -106,16 +107,16 @@ public class QueryControllerTest {
         testQuery.setKeyword("Cat");
         testQuery.setId(12l);
         testQuery.setUser(user);
-        Set<Query> list = new HashSet<>();
-        list.add(testQuery);
-        user.setQuery(list);
+        Set<Query> set = new HashSet<>();
+        set.add(testQuery);
+        user.setQuery(set);
 
 
         when(userService.getUser(1)).thenReturn((user));
-        when(queryService.getAllQueryToUser(user)).thenReturn(list);
+        when(queryService.getAllQueryToUser(user)).thenReturn(set);
 
 
-        mockMvc.perform(get("/query").param("user_id","1"))
+        mockMvc.perform(get("/query").param("user_id","1").param("page","0").param("size","1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$",hasSize(1)))
                 .andExpect(jsonPath("$[0].id",is(12)))
@@ -136,13 +137,13 @@ public class QueryControllerTest {
     {
         User user = new User();
         user.setId(1);
-        Set<Query> list = new HashSet<>();
-        user.setQuery(list);
+        Set<Query> set = new HashSet<>();
+        user.setQuery(set);
 
         when(userService.getUser(1)).thenReturn((user));
-        when(queryService.getAllQueryToUser(user)).thenReturn(list);
+        when(queryService.getAllQueryToUser(user)).thenReturn(set);
 
-        mockMvc.perform(get("/query").param("user_id","1"))
+        mockMvc.perform(get("/query").param("user_id","1").param("page","0").param("size","1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$",hasSize(0)));
     }

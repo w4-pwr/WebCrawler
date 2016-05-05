@@ -13,10 +13,7 @@ import pwr.po.webcrawler.model.Query;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -25,6 +22,7 @@ import java.util.Set;
 public class User implements UserDetails, Serializable {
 
     public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
+
 
     @Id
     @Column(name = "user_id")
@@ -79,7 +77,6 @@ public class User implements UserDetails, Serializable {
         this.password = password;
     }
 
-
     public User(String username, String firstName, String lastName) {
         this.username = username;
         this.firstName = firstName;
@@ -102,8 +99,6 @@ public class User implements UserDetails, Serializable {
         authorities.add(new SimpleGrantedAuthority(role.getAuthority()));
         return authorities;
     }
-
-
 
     @Override
     public boolean isAccountNonExpired() {

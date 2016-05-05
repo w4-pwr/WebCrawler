@@ -1,6 +1,7 @@
 package pwr.po.webcrawler.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,6 @@ import pwr.po.webcrawler.web.mapper.QueryMapper;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Rafał Niedźwiecki on 17.04.2016.
@@ -30,16 +30,27 @@ public class QueryController {
     @Autowired
     private UserService userService;
 
+    public static int MAX_PAGE_SIZE = 100;
+
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<QueryDTO>> get(@RequestParam Long user_id) {
+    public ResponseEntity<List<QueryDTO>> get(@RequestParam Long user_id, @RequestParam int page,@RequestParam int size) {
         User user = userService.getUser(user_id);
         if(user==null)
         {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Set<Query> list = queryService.getAllQueryToUser(user);
+        PagedListHolder<Query> keywordList = new PagedListHolder<>(new ArrayList<>(user.getQuery()));
+
+        if(size>MAX_PAGE_SIZE)
+            size=MAX_PAGE_SIZE;
+
+        keywordList.setPageSize(size);
+        keywordList.setPage(page);
+
+        List<Query> pageListItems=keywordList.getPageList();
         List<QueryDTO> result = new ArrayList<>();
-        for(Query query : list)
+
+        for(Query query : pageListItems)
         {
             QueryDTO dto = QueryMapper.map(query);
             result.add(dto);
