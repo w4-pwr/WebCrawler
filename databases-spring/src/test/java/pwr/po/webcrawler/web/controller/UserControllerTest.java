@@ -88,9 +88,9 @@ public class UserControllerTest {
     @Test
     public void getUser_UserNotExist() throws Exception {
 
-        mockMvc.perform(get("/user/1"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(""));
+            mockMvc.perform(get("/user/1"))
+                    .andExpect(status().isOk())
+                    .andExpect(content().string(""));
     }
 
     @Test

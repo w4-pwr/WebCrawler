@@ -8,7 +8,8 @@ import pwr.po.webcrawler.model.user.User;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
+
 /**
  * Created by Rafal Pieniazek on 2016-04-15.
  * Entity table represents query added by user
@@ -38,10 +39,10 @@ public class Query {
     private Date addedDate;
 
     @OneToMany(mappedBy = "query",cascade = CascadeType.ALL)
-    private List<Result> result;
+    private Set<Result> result;
 
     @JsonManagedReference
-    public List<Result> getResult()
+    public Set<Result> getResult()
     {
         return result;
     }

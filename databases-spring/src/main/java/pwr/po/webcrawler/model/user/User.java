@@ -16,7 +16,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -25,7 +25,6 @@ import java.util.List;
 public class User implements UserDetails, Serializable {
 
     public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
-
 
     @Id
     @Column(name = "user_id")
@@ -67,11 +66,11 @@ public class User implements UserDetails, Serializable {
     @JoinColumn(name = "preferences_id", nullable = true)
     private Preferences preferences;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
-    private List<Query> query;
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private Set<Query> query;
 
     @JsonManagedReference
-    public List<Query> getQuery()
+    public Set<Query> getQuery()
     {
         return query;
     }
@@ -79,6 +78,7 @@ public class User implements UserDetails, Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
 
     public User(String username, String firstName, String lastName) {
         this.username = username;
@@ -102,6 +102,8 @@ public class User implements UserDetails, Serializable {
         authorities.add(new SimpleGrantedAuthority(role.getAuthority()));
         return authorities;
     }
+
+
 
     @Override
     public boolean isAccountNonExpired() {
