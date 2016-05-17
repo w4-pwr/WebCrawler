@@ -9,6 +9,7 @@ render((
   <Router history={hashHistory}>
     <Route component={App}>
         <Route path="/" components={{main: Searches}} />
+        <Route path="/s/:page" components={{main: Searches}} />
         <Route path="/profile" components={{main: Profile}} />
     </Route>
   </Router>
