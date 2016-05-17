@@ -1,10 +1,10 @@
 package pwr.po.webcrawler.service.user;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Service;
 import pwr.po.webcrawler.model.user.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
 
@@ -15,6 +15,8 @@ public interface UserService extends UserDetailsService {
      User getUser(long id);
 
      User getUser(String username);
+
+     User getUserByToken(String token);
 
      User getUserByEmail(String email);
 
