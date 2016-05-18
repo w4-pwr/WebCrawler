@@ -15,11 +15,11 @@ export default React.createClass({
             results: [
                 {
                     id: 'xxxxxx',
-                    url: 'http://google.com',
+                    url: 'http:/google.com',
                     repeats: 12
                 },{
                     id: 'xxxx23',
-                    url: 'http://facebook.com',
+                    url: 'http:/facebook.com',
                     repeats: 23
                 }
             ],
@@ -28,7 +28,8 @@ export default React.createClass({
         this.getResults();
     },
     getResults() {
-        $.get(backendUrl + '/result/' + this.props.params.page, function(data){
+        $.get(backendUrl + '/result?token=' + localStorage.getItem('token') +
+            '&id=' + this.props.params.id + '&page=' + this.props.params.page, function(data){
             this.data = data;
             this.forceUpdate();
         },'json');
