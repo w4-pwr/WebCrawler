@@ -59,14 +59,6 @@
 
 ####Wyświetlanie rezultatów danego wyszukania:
 
-    getResults() {
-        $.get(backendUrl + '/result?token=' + localStorage.getItem('token') +
-            '&id=' + this.props.params.id + '&page=' + this.props.params.page, function(data){
-            this.data = data;
-            this.forceUpdate();
-        },'json');
-    },
-
     //metoda: GET
     //url: 'serach?token=TOKEN_USERA&id=ID_WYSZUKANIA&page=NUMER_STRONY
     //dane OUT:
