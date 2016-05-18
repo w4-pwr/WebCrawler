@@ -46,11 +46,36 @@ export default React.createClass({
                         <span className="hidden-xs">Your profile</span>
                     </a>
                 </li>
+                <li className="dropdown user user-menu">
+                {/* Menu Sign up */}
+
+                <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+                    <span className="hidden-xs2">Edit profile</span>
+                </a>
+                <ul className="dropdown-menu">
+                    <li className="user-header sign-up">
+                        <input id='username' className='form-control' type='text' placeholder='username' />
+                        <input id='email' className='form-control' type='text' placeholder='email' />
+                        <input id='firstname' className='form-control' type='text' placeholder='first name' />
+                        <input id='lastname' className='form-control' type='text' placeholder='last name' />
+                        <input id='password' className='form-control' type='password' placeholder='password' />
+                        <input id='password2' className='form-control' type='password' placeholder='re-type password' />
+                    </li>
+                    <li className="user-footer">
+
+                        <div className="pull-right">
+                            <a className="btn btn-default btn-flat" onClick={this.editProfile}>Edit profile</a>
+                        </div>
+                    </li>
+                </ul>
+            </li>
                 <li>
                     <a href='#' className='dropdown-toggle' onClick={this.signOut}>
                         <span className='hidden-xs'>Sign out</span>
                     </a>
                 </li>
+                
+                
             </ul>
         } else {
             return <ul className='nav navbar-nav'>
@@ -175,5 +200,47 @@ export default React.createClass({
         $('.dropdown-menu .user-header').click(function(e) {
             e.stopPropagation();
         });
+    },
+    editProfile(e) {
+    	// tutaj trzeba pobrać dane użytkownika i 
+    	
+    	var $menu = $(e.target).closest('.dropdown-menu');
+        var email = $menu.find('#email')[0].value;
+        var password = $menu.find('#password')[0].value;
+        var password2 = $menu.find('#password2')[0].value;
+        var username = $menu.find('#username')[0].value;
+        var firstname = $menu.find('#firstname')[0].value;
+        var lastname = $menu.find('#lastname')[0].value;
+
+        var xhttp = new XMLHttpRequest();
+
+        function check() {
+                if (password.length > 7) {
+                    if (password == password2) {
+                        xhttp.onreadystatechange = function () {
+                            if (xhttp.readyState == 4 && xhttp.status == 200) {
+                                console.log(xhttp.responseText);
+                            }
+                        };
+                        var params = JSON.stringify({
+                            email: email,
+                            password: password,
+                            username: username,
+                            firstName: firstname,
+                            lastName: lastname,
+                            registrationDate: registrationDate,
+                        })
+                        xhttp.open('POST', 'registration' , true);
+                        xhttp.send(params);
+                    }
+                    else {
+                        alert("Passwords not match, Fill them correctly.");
+                    }
+                }
+                else {
+                    alert ("Password must be at least 8 characters long");
+                }
+        }
+        check();
     }
 });
