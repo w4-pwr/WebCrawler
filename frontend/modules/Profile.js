@@ -2,7 +2,8 @@ import React from 'react'
 
 export default React.createClass({
     componentWillMount() {
-        this.data = {user: {}};   
+        this.data = {user: {}};
+        this.getUserData();
     },
     render() {
         return <div className="content-wrapper">
@@ -25,7 +26,11 @@ export default React.createClass({
         </div>;
     },
     getUserData() {
-        var xhttp = new XMLHttpRequest();
+        $.get(backendUrl + '/user/' + localStorage.getItem('token'), function(data){
+            this.data.user = data;
+            this.forceUpdate();
+        },'json');
+        /*var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
                 this.data.user = JSON.parse(xhttp.responseText);
@@ -33,6 +38,6 @@ export default React.createClass({
             }
         };
         xhttp.open('GET', this.backendUrl + '/user/'+localStorage.getItem('token') , true);
-        xhttp.send();
+        xhttp.send();*/
     },
 });
