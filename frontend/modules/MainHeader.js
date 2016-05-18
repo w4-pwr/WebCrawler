@@ -2,13 +2,11 @@ import React from 'react'
 
 export default React.createClass({
     render() {
-        this.backendUrl = 'http://webcrawlerbs.pyphqhigf5.us-west-2.elasticbeanstalk.com/';
         window._MainHeader = this;
         return <header className='main-header'>
 
             {/* Logo */}
             <a href="#" className="logo">
-
                 {/* mini logo for sidebar mini 50x50 pixels */}
                 <span className='logo-mini'><b>W</b>Cr</span>
                 {/* logo for regular state and mobile devices */}
@@ -118,21 +116,25 @@ export default React.createClass({
         } else {
             if (password.length > 7) {
                 if (password == password2) {
-                    xhttp.onreadystatechange = function () {
+                    /*xhttp.onreadystatechange = function () {
                         if (xhttp.readyState == 4 && xhttp.status == 200) {
                             console.log(xhttp.responseText);
                         }
-                    };
+                    };*/
                     var params = JSON.stringify({
                         email: email,
                         password: password,
                         username: username,
                         firstName: firstname,
-                        lastName: lastname,
-                        //registrationDate: registrationDate,
+                        lastName: lastname
                     })
-                    xhttp.open('PUT', this.backendUrl + 'user' , true);
-                    xhttp.send(params);
+                    $.ajax({
+                        type: 'PUT',
+                        url: backendUrl + 'user',
+                        data: params
+                    });
+                    //xhttp.open('PUT', backendUrl + 'user' , true);
+                    //xhttp.send(params);
                 } else {
                     alert('Passwords don\'t match, Fill them correctly.');
                 }
@@ -146,7 +148,10 @@ export default React.createClass({
         var $menu = $(e.target).closest('.dropdown-menu');
         var email = $menu.find('#email')[0].value;
         var password = $menu.find('#password')[0].value;
-        console.log(email, password);
+        $.post(backendUrl + 'login?email=' + email + '&password=' + password).done(function(data){
+           	localStorage.setItem('token', data);
+        });
+        /*console.log(email, password);
         var xhttp = new XMLHttpRequest();
         
         xhttp.onreadystatechange = function() {
@@ -158,8 +163,8 @@ export default React.createClass({
                 }
             }
         };
-        xhttp.open('POST', this.backendUrl + 'login?email='+email+'&password='+password, true);
-        xhttp.send();
+        xhttp.open('POST', backendUrl + 'login?email='+email+'&password='+password, true);
+        xhttp.send();*/
     },
     signOut() {
     	if (localStorage.getItem('token') != null) {
