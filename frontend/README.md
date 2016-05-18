@@ -18,7 +18,7 @@
 
 
 
-dodawanie nowych wyszukań:
+##Dodawanie nowych wyszukań:
 
     //metoda: POST
     //url: 'serach?token=TOKEN_USERA'
@@ -27,7 +27,7 @@ dodawanie nowych wyszukań:
         keyword: SZUKANA_FRAZA
     }
 
-wyświetlanie listy wyszukań dla danego usera:
+##Wyświetlanie listy wyszukań dla danego usera:
 
     //metoda: GET
     //url: 'serach?token=TOKEN_USERA&page=NUMER_STRONY
@@ -57,7 +57,7 @@ wyświetlanie listy wyszukań dla danego usera:
         pages: 30 //ilość stron, które zajmują wszystkie wyszukania (przyjąć jakąś stałą liczbę wpisów na stronę)
     }
 
-wyświetlanie rezultatów danego wyszukania:
+##Wyświetlanie rezultatów danego wyszukania:
 
     getResults() {
         $.get(backendUrl + '/result?token=' + localStorage.getItem('token') +
