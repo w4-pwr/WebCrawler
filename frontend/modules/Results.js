@@ -15,11 +15,11 @@ export default React.createClass({
             results: [
                 {
                     id: 'xxxxxx',
-                    url: 'http:/google.com',
+                    url: 'http://google.com',
                     repeats: 12
                 },{
                     id: 'xxxx23',
-                    url: 'http:/facebook.com',
+                    url: 'http://facebook.com',
                     repeats: 23
                 }
             ],
