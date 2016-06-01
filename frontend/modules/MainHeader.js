@@ -174,6 +174,7 @@ export default React.createClass({
                     $.ajax({
                         type: 'PUT',
                         url: backendUrl + 'user',
+                        crossorigin: true,
                         data: params
                     });
                     //xhttp.open('PUT', backendUrl + 'user' , true);
