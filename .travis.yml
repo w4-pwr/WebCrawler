@@ -9,11 +9,9 @@ branches:
   - dev
   - feature/#3_configure_travis
 
-env:
-  global:
-   - secure: "bCeV+NtOTKizZd6A2noxUA1HbKFY5ITPq00DQllY4W5r/Tt4SnWPTNANdLQKWDjG6FKCMfYd6XhnEKQweNGJ2Ej22vPWkJnaoIhP24kiH890emjTC0uEB5EMBCLu0T8Y0Q5qIWzCD7TO7lIOHCAyIMx7JEHslUTDShUFp/EvfsEKoGRZyG7DJ+I6ijSMqt5tCrY8wTkvPhBbH+/F8Brw0lYKB7JYllsu8Jh5aHsshxgctOGTG9ZU9OZwFqFc7k3USIRkScdXhwMSEzZB5m5UCWsesFj4iU03HWu5nfHIj8Imkr59qZycg+MckqXEMEXJqiNmK3O+LoZu7Fw+gIVtE5jHUO9X4Ct5LSd0Xzhn8kVX4JxDLU/eh3vFc20FxDmiHCls03Z22v+Y9FophHs7M9TLNBmr6bFowWlKg6BDIsITfWLCx9S5O9E3bMpq0Bn3qjbC16sukkR58W99d9JNKnotwx0r08JNBSM0dCHxBhSA7hKEVvTrdSAkEha1FWeEyOk2i4/jYk+2juxiH01XwpKK9dMp6NVSDKvfcJ8VS+1nit/vZP3Kv8nrZ6rnvx8VMkMj2/11sHtc7FDYC2yLpDd6xq1t5Ovq/2Fu0DkDD+QOfGYVr2OYNJVHEilak5nzD5P3Pqrq7tFU3e/FVxqFsTFtfd9g7TDzkiyF4eiZ0Tc="
-
 script: (cd frontend && npm install)
+
+before_deploy: maven install
 
 deploy:
   skip_cleanup: true
