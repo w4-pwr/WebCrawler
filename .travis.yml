@@ -9,9 +9,9 @@ branches:
   - dev
   - feature/#3_configure_travis
 
-script: (cd frontend && npm install)
+#script: (cd frontend && npm install)
 
-before_deploy: mvn install
+before_deploy: (mvn install && ls)
 
 deploy:
   skip_cleanup: true
