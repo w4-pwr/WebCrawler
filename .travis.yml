@@ -11,7 +11,7 @@ branches:
 
 script: (cd frontend && npm install)
 
-before_deploy: maven install
+before_deploy: install
 
 deploy:
   skip_cleanup: true
