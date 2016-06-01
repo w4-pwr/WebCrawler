@@ -11,7 +11,7 @@ branches:
 
 #script: (cd frontend && npm install)
 
-before_deploy: (mvn install && ls)
+before_deploy: (mvn install && tree)
 
 # deploy:
 #   skip_cleanup: true
@@ -30,5 +30,10 @@ deploy:
   provider: s3
   access_key_id: AKIAIDGGEWLKEAEKPHEQ
   secret_access_key: $AWS_KEY
-  bucket: "S3 Bucket"
+  bucket: elasticbeanstalk-us-west-2-493126854002
   skip_cleanup: true
+  region: us-west-2
+  on:
+    repo: radekkut/WebCrawler
+    branch: feature/#3_configure_travis
+  
