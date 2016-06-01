@@ -1,5 +1,7 @@
 package pwr.po.webcrawler.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import pwr.po.webcrawler.model.Query;
@@ -17,6 +19,8 @@ public interface QueryRepository extends JpaRepository<Query,Long> {
     Query findById(long id);
 
     Set<Query> findByUser(User user);
+
+    Page<Query> findAllByUser(User user, Pageable pageable);
 
     Query findByKeyword(String keyword);
 

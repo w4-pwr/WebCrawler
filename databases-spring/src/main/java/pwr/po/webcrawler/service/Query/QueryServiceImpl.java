@@ -1,6 +1,8 @@
 package pwr.po.webcrawler.service.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import pwr.po.webcrawler.model.Query;
 import pwr.po.webcrawler.model.user.User;
@@ -21,6 +23,11 @@ public class QueryServiceImpl implements QueryService {
     @Override
     public Set<Query> getAllQueryToUser(User user) {
         return queryRepository.findByUser(user);
+    }
+
+    @Override
+    public Page<Query> getAllPageableQueryToUser(User user, int pageNumber, int pageSize) {
+        return queryRepository.findAllByUser(user, new PageRequest(pageNumber,pageSize));
     }
 
     @Override
