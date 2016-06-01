@@ -13,15 +13,22 @@ branches:
 
 before_deploy: (mvn install && ls)
 
+# deploy:
+#   skip_cleanup: true
+#   provider: elasticbeanstalk
+#   access_key_id: AKIAIDGGEWLKEAEKPHEQ
+#   secret_access_key: $AWS_KEY
+#   region: us-west-2
+#   app:  WebCrawler-BS
+#   env: webcrawlerbs
+#   bucket_name: elasticbeanstalk-us-west-2-493126854002
+#   on:
+#     repo: radekkut/WebCrawler
+#     branch: feature/#3_configure_travis
+
 deploy:
-  skip_cleanup: true
-  provider: elasticbeanstalk
+  provider: s3
   access_key_id: AKIAIDGGEWLKEAEKPHEQ
   secret_access_key: $AWS_KEY
-  region: us-west-2
-  app:  WebCrawler-BS
-  env: webcrawlerbs
-  bucket_name: elasticbeanstalk-us-west-2-493126854002
-  on:
-    repo: radekkut/WebCrawler
-    branch: feature/#3_configure_travis
+  bucket: "S3 Bucket"
+  skip_cleanup: true
