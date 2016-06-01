@@ -40,6 +40,24 @@ export default React.createClass({
     renderDropdowns() {
         var Token = localStorage.getItem('token');
         if (Token) {
+            /*return <ul className='nav navbar-nav'>
+                <li className='dropdown user user-menu'>
+                    <a href='#' className='dropdown-toggle' data-toggle='dropdown'>
+                        <span className='hidden-xs'>Your profile</span>
+                    </a>
+                    <ul className='dropdown-menu'>
+                        <li className='user-header account'>
+                            <div>{this.data.user.firstName} {this.data.user.lastName}, {this.data.user.username}</div>
+                            <div>{this.data.user.email}</div>
+                            {(()=>{
+                                if (this.data.user.role == 'ADMIN') {
+                                    return <div>ADMINISTRATOR</div>                                
+                                } else {
+                                    return null;
+                                }
+                            })()}
+                        </li>
+                    </ul>*/
             return <ul className="nav navbar-nav">
                 <li className="dropdown user user-menu">
                     <a href="#/profile" className="dropdown-toggle">
