@@ -11,6 +11,7 @@
 
     <modules>
          <module>databases-spring</module>
+        <module>functional-tests</module>
     </modules>
 
     <name>WebCrawler</name>
