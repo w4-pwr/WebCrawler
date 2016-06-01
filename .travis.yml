@@ -11,7 +11,7 @@ branches:
 
 #script: (cd frontend && npm install)
 
-before_deploy: mvn install
+before_deploy: (mvn install && cd frontend && npm install)
 
 # deploy:
 #   skip_cleanup: true
@@ -27,12 +27,24 @@ before_deploy: mvn install
 #     branch: feature/#3_configure_travis
 
 deploy:
-  provider: s3
-  access_key_id: AKIAIDGGEWLKEAEKPHEQ
-  secret_access_key: $AWS_KEY
-  bucket: elasticbeanstalk-us-west-2-493126854002
-  skip_cleanup: true
-  region: us-west-2
-  on:
-    repo: radekkut/WebCrawler
-    branch: feature/#3_configure_travis
+  - provider: s3
+    access_key_id: AKIAIDGGEWLKEAEKPHEQ
+    secret_access_key: $AWS_KEY
+    bucket: elasticbeanstalk-us-west-2-493126854002
+    skip_cleanup: true
+    region: us-west-2
+    local_dir: deployments
+    on:
+      repo: radekkut/WebCrawler
+      branch: feature/#3_configure_travis
+  - provider: s3
+    access_key_id: AKIAIDGGEWLKEAEKPHEQ
+    secret_access_key: $AWS_KEY
+    bucket: elasticbeanstalk-us-west-2-493126854002
+    skip_cleanup: true
+    region: us-west-2
+    local_dir: frontend
+    on:
+      repo: radekkut/WebCrawler
+      branch: feature/#3_configure_travis
+#after_deploy: ./create_app.sh
