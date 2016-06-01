@@ -27,14 +27,3 @@ deploy:
   on:
     repo: radekkut/WebCrawler
     branch: feature/#3_configure_travis
-
-
-addons:
-  coverity_scan:
-    project:
-      name: "radekkut/WebCrawler"
-      description: "Build submitted via Travis CI"
-    notification_email: radoslaw.kutylowski@stermedia.pl
-    build_command_prepend: "mvn clean"
-    build_command:   "mvn compile"
-    branch_pattern: develop
