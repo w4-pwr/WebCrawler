@@ -11,7 +11,7 @@ branches:
 
 #script: (cd frontend && npm install)
 
-before_deploy: (mvn install && tree)
+before_deploy: mvn install
 
 # deploy:
 #   skip_cleanup: true
@@ -36,4 +36,3 @@ deploy:
   on:
     repo: radekkut/WebCrawler
     branch: feature/#3_configure_travis
-  
