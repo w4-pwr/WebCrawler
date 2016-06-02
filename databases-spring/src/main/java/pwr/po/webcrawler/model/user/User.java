@@ -16,11 +16,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
-<<<<<<< HEAD
 import java.util.List;
-=======
-import java.util.Set;
->>>>>>> dev
+
 
 @Entity
 @Getter

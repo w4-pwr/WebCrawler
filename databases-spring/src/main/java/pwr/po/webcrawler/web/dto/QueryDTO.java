@@ -14,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 public class QueryDTO {
+
     private Long id;
 
     private long userId;
