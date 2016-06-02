@@ -1,5 +1,6 @@
 package pwr.po.webcrawler.model.user;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,7 +16,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,6 +25,7 @@ import java.util.Set;
 public class User implements UserDetails, Serializable {
 
     public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
+
 
     @Id
     @Column(name = "user_id")
@@ -65,8 +67,16 @@ public class User implements UserDetails, Serializable {
     @JoinColumn(name = "preferences_id", nullable = true)
     private Preferences preferences;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private Set<Query> query;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Query> query;
+
+    @JsonManagedReference
+    public List<Query> getQuery()
+    {
+        return query;
+    }
+
 
     public void setPassword(String password) {
         this.password = password;
@@ -86,6 +96,7 @@ public class User implements UserDetails, Serializable {
     }
 
     public User() {
+
     }
 
     @Override
@@ -94,8 +105,6 @@ public class User implements UserDetails, Serializable {
         authorities.add(new SimpleGrantedAuthority(role.getAuthority()));
         return authorities;
     }
-
-
 
     @Override
     public boolean isAccountNonExpired() {

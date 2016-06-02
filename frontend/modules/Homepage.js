@@ -1,12 +1,10 @@
 import React from 'react'
 import MainHeader from './MainHeader'
-import Moment from 'moment'
 
 export default React.createClass({
     render() {
-        window.backendUrl = 'http://webcrawlerbs.pyphqhigf5.us-west-2.elasticbeanstalk.com/';
-        window.moment = Moment;
-        return <div className="wrapper skin-blue sidebar-mini">
+        return <div className="wrapper hold-transition skin-blue sidebar-mini">
+        <div className="wrapper">
             <MainHeader app={this} />
             
             {/* Left side column. contains the logo and sidebar */}
@@ -14,7 +12,15 @@ export default React.createClass({
             
             {/* sidebar: style can be found in sidebar.less */}
             <section className="sidebar">
-
+                <form action="#" method="get" className="sidebar-form">
+                    <div className="input-group">
+                      <input type="text" name="q" className="form-control" placeholder="Search..." style={{backgroundImage: 'none', backgroundPosition: '0% 0%', backgroundRepeat: 'repeat'}} />
+                      <span className="input-group-btn">
+                        <button type="submit" name="search" id="search-btn" className="btn btn-flat"><i className="fa fa-search" />
+                        </button>
+                      </span>
+                    </div>
+                </form>
               {/* Sidebar Menu */}
               <ul className="sidebar-menu">
                 <li className="header">HEADER</li>
@@ -33,8 +39,26 @@ export default React.createClass({
             </section>
             {/* /.sidebar */}
             </aside>
-            
-            {this.props.main}
+
+            {/* Content Wrapper. Contains page content */}
+            <div className="content-wrapper">
+            {/* Content Header (Page header) */}
+            <section className="content-header">
+              <h1>
+                Page Header
+                <small>Optional description</small>
+              </h1>
+            </section>
+
+            {/* Main content */}
+            <section className="content">
+
+              {/* Your Page Content Here */}
+
+            </section>
+            {/* /.content */}
+            </div>
+            {/* /.content-wrapper */}
 
             {/* Control Sidebar */}
             <aside className="control-sidebar control-sidebar-dark">
@@ -110,6 +134,8 @@ export default React.createClass({
             {/* Add the sidebar's background. This div must be placed
                immediately after the control sidebar */}
             <div className="control-sidebar-bg"></div>
+
+        </div>
         </div>;
     }
 });

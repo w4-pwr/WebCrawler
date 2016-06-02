@@ -23,11 +23,7 @@
                 <artifactId>dropbox-core-sdk</artifactId>
                 <version>1.7</version>
             </dependency>
-            <dependency>
-                <groupId>org.jsoup</groupId>
-                <artifactId>jsoup</artifactId>
-                <version>1.7.2</version>
-            </dependency>
+
             <dependency>
                 <groupId>com.typesafe.akka</groupId>
                 <artifactId>akka-actor_2.10</artifactId>
