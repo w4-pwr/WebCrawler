@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import parser.FetchSite;
+import parser.WebParser;
 import pwr.po.webcrawler.model.user.User;
 import pwr.po.webcrawler.service.user.UserService;
 import pwr.po.webcrawler.web.dto.UserDTO;
@@ -23,6 +25,12 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 @RestController
 @RequestMapping(value = "user")
 public class UserController {
+
+    @Autowired
+    private WebParser webParser;
+
+    @Autowired
+    private FetchSite fetchSite;
 
     @Autowired
     private UserService userService;
