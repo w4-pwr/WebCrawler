@@ -16,7 +16,11 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+<<<<<<< HEAD
 import java.util.List;
+=======
+import java.util.Set;
+>>>>>>> dev
 
 @Entity
 @Getter
@@ -31,17 +35,19 @@ public class User implements UserDetails, Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Column
     private String username;
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = true)
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = true)
     private String lastName;
 
-    @Column(name = "profile_image")
+    @Column(name = "profile_image", nullable = true)
     private String profileImage;
 
+    @Column
     private String email;
 
     @Column(length = 60)
@@ -51,15 +57,21 @@ public class User implements UserDetails, Serializable {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @Column(name = "registration_date")
+    @Column(name = "registration_date", nullable = true)
     private Date registrationDate;
 
+    @Column(name = "enabled")
+    private boolean enabled;
+
+    @Column(name = "token")
+    private String token;
 
     @OneToOne
-    @JoinColumn(name = "preferences_id")
+    @JoinColumn(name = "preferences_id", nullable = true)
     private Preferences preferences;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Query> query;
 
     @JsonManagedReference
@@ -68,10 +80,10 @@ public class User implements UserDetails, Serializable {
         return query;
     }
 
+
     public void setPassword(String password) {
         this.password = password;
     }
-
 
     public User(String username, String firstName, String lastName) {
         this.username = username;
@@ -89,8 +101,6 @@ public class User implements UserDetails, Serializable {
     public User() {
 
     }
-
-
 
     @Override
     public Collection<GrantedAuthority> getAuthorities() {

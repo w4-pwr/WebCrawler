@@ -38,6 +38,7 @@ public class Query {
 
     private Date addedDate;
 
+
     @OneToMany(mappedBy = "query",cascade = CascadeType.ALL)
     private List<Result> result;
 
@@ -46,4 +47,11 @@ public class Query {
     {
         return result;
     }
+
 }
+
+enum Status{
+    PENDING, ACTIVE, COMPLETED
+}
+
+
