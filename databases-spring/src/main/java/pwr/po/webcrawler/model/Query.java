@@ -1,5 +1,7 @@
 package pwr.po.webcrawler.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import pwr.po.webcrawler.model.user.User;
@@ -26,12 +28,24 @@ public class Query {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @JsonBackReference
+    public User getUser()
+    {
+        return user;
+    }
+
     private String keyword;
 
     private Date addedDate;
 
-   @OneToMany(mappedBy = "query",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "query",cascade = CascadeType.ALL)
     private Set<Result> result;
+
+    @JsonManagedReference
+    public Set<Result> getResult()
+    {
+        return result;
+    }
 }
 
 enum Status{

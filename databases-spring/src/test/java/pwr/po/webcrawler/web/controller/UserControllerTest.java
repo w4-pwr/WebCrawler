@@ -1,4 +1,4 @@
-package pwr.po.webrawler.web.controller;
+package pwr.po.webcrawler.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
