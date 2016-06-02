@@ -13,7 +13,10 @@ import pwr.po.webcrawler.model.Query;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 
 @Entity
 @Getter
@@ -64,14 +67,16 @@ public class User implements UserDetails, Serializable {
     @JoinColumn(name = "preferences_id", nullable = true)
     private Preferences preferences;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private Set<Query> query;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Query> query;
 
     @JsonManagedReference
-    public Set<Query> getQuery()
+    public List<Query> getQuery()
     {
         return query;
     }
+
 
     public void setPassword(String password) {
         this.password = password;
@@ -91,6 +96,7 @@ public class User implements UserDetails, Serializable {
     }
 
     public User() {
+
     }
 
     @Override

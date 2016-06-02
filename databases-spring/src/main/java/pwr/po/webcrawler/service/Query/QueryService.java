@@ -2,6 +2,8 @@ package pwr.po.webcrawler.service.Query;
 
 import org.springframework.data.domain.Page;
 import pwr.po.webcrawler.model.Query;
+
+import pwr.po.webcrawler.model.Query;
 import pwr.po.webcrawler.model.user.User;
 
 import java.util.List;
@@ -12,7 +14,6 @@ import java.util.Set;
  */
 public interface QueryService {
 
-    Set<Query> getAllQueryToUser(User user);
 
     Page<Query> getAllPageableQueryToUser(User user, int pageNumber, int pageSize);
 

@@ -8,7 +8,7 @@ import pwr.po.webcrawler.model.user.User;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by Rafal Pieniazek on 2016-04-15.
@@ -38,14 +38,17 @@ public class Query {
 
     private Date addedDate;
 
+
     @OneToMany(mappedBy = "query",cascade = CascadeType.ALL)
-    private Set<Result> result;
+    private List<Result> result;
 
     @JsonManagedReference
-    public Set<Result> getResult()
+    public List<Result> getResult()
     {
         return result;
     }
+
+
 }
 
 enum Status{

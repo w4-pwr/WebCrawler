@@ -15,6 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 public class QueryDTO {
+
     private Long id;
 
     private long userId;
@@ -23,5 +24,5 @@ public class QueryDTO {
 
     private Date addedDate;
 
-    private Set<Result> result;
+    private List<Result> result;
 }
