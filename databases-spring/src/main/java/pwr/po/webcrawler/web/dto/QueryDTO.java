@@ -18,11 +18,12 @@ public class QueryDTO {
 
     private Long id;
 
-    private long userId;
-
     private String keyword;
 
-    private Date addedDate;
+    private Date addingDate;
 
-    private List<Result> result;
+    private long howManyResults;
+
+    private long crawlingTime;
+
 }

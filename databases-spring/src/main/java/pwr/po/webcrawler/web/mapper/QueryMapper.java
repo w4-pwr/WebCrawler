@@ -5,39 +5,46 @@ import pwr.po.webcrawler.model.Query;
 import pwr.po.webcrawler.model.user.User;
 import pwr.po.webcrawler.service.user.UserService;
 import pwr.po.webcrawler.web.dto.QueryDTO;
+import pwr.po.webcrawler.web.response.QueryResponseBody;
 
-/**
- * Created by Rafał Niedźwiecki on 17.04.2016.
- */
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class QueryMapper {
 
 
-
-    static public Query map(QueryDTO queryDTO)
-    {
-        if(queryDTO==null)
+    static public Query map(QueryDTO queryDTO) {
+        if (queryDTO == null)
             return null;
         Query query = new Query();
         query.setId(queryDTO.getId());
-        query.setAddedDate(queryDTO.getAddedDate());
         query.setKeyword(queryDTO.getKeyword());
-        query.setResult(queryDTO.getResult());
         User user = new User();
-        user.setId(queryDTO.getUserId());
         query.setUser(user);
         return query;
     }
-    static public QueryDTO map (Query query)
-    {
-        if(query==null)
+
+    static public QueryDTO map(Query query) {
+        if (query == null)
             return null;
         QueryDTO queryDTO = new QueryDTO();
         queryDTO.setId(query.getId());
-        queryDTO.setAddedDate(query.getAddedDate());
         queryDTO.setKeyword(query.getKeyword());
-        queryDTO.setUserId(query.getUser().getId());
-        queryDTO.setResult(query.getResult());
+        queryDTO.setAddingDate(query.getAddedDate());
+        queryDTO.setHowManyResults(query.getResult().size());
+
         return queryDTO;
+    }
+
+    static public QueryResponseBody mapPaginatedQueryToResponseBody(List<Query> queries){
+        QueryResponseBody response = new QueryResponseBody();
+        List<QueryDTO> queryDtoList = new ArrayList<>();
+        for(Query query: queries){
+            queryDtoList.add(map(query));
+        }
+        response.setSearches(queryDtoList);
+        return response;
     }
 
 }

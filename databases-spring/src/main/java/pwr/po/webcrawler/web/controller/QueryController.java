@@ -1,7 +1,10 @@
 package pwr.po.webcrawler.web.controller;
 
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +15,8 @@ import pwr.po.webcrawler.service.user.UserService;
 import pwr.po.webcrawler.web.dto.QueryDTO;
 import pwr.po.webcrawler.web.mapper.QueryMapper;
 import pwr.po.webcrawler.web.request.QueryRequestBody;
+import pwr.po.webcrawler.web.response.QueryResponseBody;
+import pwr.po.webcrawler.web.response.ResultResponseBody;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,8 +27,9 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("query")
 public class QueryController {
+
+    public static final int PAGE_SIZE = 30;
 
     @Autowired
     private QueryService queryService;
@@ -33,33 +39,33 @@ public class QueryController {
 
     public static int MAX_PAGE_SIZE = 100;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<QueryDTO>> get(@RequestParam Long user_id, @RequestParam int page,@RequestParam int size) {
-        User user = userService.getUser(user_id);
-        if(user==null)
-        {
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public ResponseEntity<QueryResponseBody> getAllQuery(@RequestParam("token") String token, @RequestParam int page) {
+        User user = userService.getUserByToken(token);
+        if(user==null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        PagedListHolder<Query> keywordList = new PagedListHolder<>(new ArrayList<>(user.getQuery()));
+        Page<Query> allPageableQueryToUser = queryService.getAllPageableQueryToUser(user, page, PAGE_SIZE);
 
-        if(size>MAX_PAGE_SIZE)
-            size=MAX_PAGE_SIZE;
+        QueryResponseBody queryResponseBody = QueryMapper.mapPaginatedQueryToResponseBody(allPageableQueryToUser.getContent());
 
-        keywordList.setPageSize(size);
-        keywordList.setPage(page);
-
-        List<Query> pageListItems=keywordList.getPageList();
-        List<QueryDTO> result = new ArrayList<>();
-
-        for(Query query : pageListItems)
-        {
-            QueryDTO dto = QueryMapper.map(query);
-            result.add(dto);
-        }
-        return new ResponseEntity<>(result,HttpStatus.OK);
+        return new ResponseEntity<>(queryResponseBody,HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+
+    @RequestMapping(value = "/result", method = RequestMethod.GET)
+    public ResponseEntity<ResultResponseBody> getQueriesResults(@RequestParam("token") String token, @RequestParam int id,@RequestParam int page) {
+
+        Query queryById = queryService.getQueryById(id);
+        ResultResponseBody response = new ResultResponseBody(queryById);
+
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
+
+
+
+    @RequestMapping(value = "/query/", method = RequestMethod.POST)
     public ResponseEntity<String> saveQuery(@RequestParam("token") String token, @RequestBody QueryRequestBody requestBody)
     {
         if(requestBody==null){
