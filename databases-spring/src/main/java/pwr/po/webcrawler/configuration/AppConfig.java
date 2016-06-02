@@ -25,7 +25,6 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        System.out.println("AddCorsMapping");
         registry.addMapping("/**").allowedMethods("POST", "PUT", "GET", "OPTIONS", "DELETE").exposedHeaders(TokenAuthenticationService.AUTH_HEADER_NAME);
     }
 
