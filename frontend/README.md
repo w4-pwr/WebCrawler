@@ -60,7 +60,7 @@
 ####Wyświetlanie rezultatów danego wyszukania:
 
     //metoda: GET
-    //url: 'serach?token=TOKEN_USERA&id=ID_WYSZUKANIA&page=NUMER_STRONY
+    //url: 'result?token=TOKEN_USERA&id=ID_WYSZUKANIA&page=NUMER_STRONY
     //dane OUT:
     {
         search: {
