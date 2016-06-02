@@ -4,13 +4,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import pwr.po.webcrawler.model.user.User;
 
 import java.util.List;
+import java.util.Optional;
 
-/**
- * Created by Rafal on 2016-03-23.
- */
 public interface UserService extends UserDetailsService {
-
-
 
      List<User> getAll();
 
@@ -20,8 +16,11 @@ public interface UserService extends UserDetailsService {
 
      User getUser(String username);
 
+     User getUserByToken(String token);
+
      User getUserByEmail(String email);
 
-    public void deleteUser(long id);
+     void deleteUser(long id);
+
 
 }

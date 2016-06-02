@@ -7,27 +7,27 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.servlet.config.annotation.*;
 import pwr.po.webcrawler.service.auth.TokenAuthenticationService;
 
 import javax.sql.DataSource;
 
 
 @Configuration
-@ComponentScan(basePackages = "pwr.po.webcrawler", excludeFilters = @ComponentScan.Filter(value = Configuration.class, type = FilterType.ANNOTATION))
+@ComponentScan(basePackages = "pwr.po.webcrawler")
 @EnableWebMvc
 @EnableAsync
 public class AppConfig extends WebMvcConfigurerAdapter {
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").exposedHeaders(TokenAuthenticationService.AUTH_HEADER_NAME);
-    }
-
     @Autowired
     DataSource dataSource;
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        System.out.println("AddCorsMapping");
+        registry.addMapping("/**").allowedMethods("POST", "PUT", "GET", "OPTIONS", "DELETE").exposedHeaders(TokenAuthenticationService.AUTH_HEADER_NAME);
+    }
 
 
     @Bean(initMethod = "migrate")
@@ -40,5 +40,11 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
         flyway.migrate();
         return flyway;
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 }

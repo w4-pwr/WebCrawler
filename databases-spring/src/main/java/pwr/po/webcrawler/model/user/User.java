@@ -1,19 +1,25 @@
 package pwr.po.webcrawler.model.user;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pwr.po.webcrawler.model.Preferences;
+import pwr.po.webcrawler.model.Query;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Set;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "users")
 public class User implements UserDetails, Serializable {
 
@@ -24,18 +30,19 @@ public class User implements UserDetails, Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-
+    @Column
     private String username;
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = true)
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = true)
     private String lastName;
 
-    @Column(name = "profile_image")
+    @Column(name = "profile_image", nullable = true)
     private String profileImage;
 
+    @Column
     private String email;
 
     @Column(length = 60)
@@ -45,18 +52,25 @@ public class User implements UserDetails, Serializable {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @Column(name = "registration_date")
+    @Column(name = "registration_date", nullable = true)
     private Date registrationDate;
 
+    @Column(name = "enabled")
+    private boolean enabled;
+
+    @Column(name = "token")
+    private String token;
 
     @OneToOne
-    @JoinColumn(name = "preferences_id")
+    @JoinColumn(name = "preferences_id", nullable = true)
     private Preferences preferences;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private Set<Query> query;
 
     public void setPassword(String password) {
         this.password = password;
     }
-
 
     public User(String username, String firstName, String lastName) {
         this.username = username;
@@ -65,6 +79,7 @@ public class User implements UserDetails, Serializable {
     }
 
     public User(Long id, String username, String firstName, String lastName) {
+        this.id = id;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -76,7 +91,7 @@ public class User implements UserDetails, Serializable {
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
         HashSet<GrantedAuthority> authorities = new HashSet<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        authorities.add(new SimpleGrantedAuthority(role.getAuthority()));
         return authorities;
     }
 
@@ -102,83 +117,5 @@ public class User implements UserDetails, Serializable {
         return true;
     }
 
-    //dlaczego lombok nie dziala?
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getProfileImage() {
-        return profileImage;
-    }
-
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    public UserRole getRole() {
-        return role;
-    }
-
-    public void setRole(UserRole role) {
-        this.role = role;
-    }
-
-    public Date getRegistrationDate() {
-        return registrationDate;
-    }
-
-    public void setRegistrationDate(Date registrationDate) {
-        this.registrationDate = registrationDate;
-    }
-
-    public Preferences getPreferences() {
-        return preferences;
-    }
-
-    public void setPreferences(Preferences preferences) {
-        this.preferences = preferences;
-    }
 }

@@ -43,11 +43,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll()
                 .and().exceptionHandling().accessDeniedPage("/auth/forbidden")
                 .and().csrf().disable();
-
-//                .authorizeRequests()
-//                .antMatchers("/user/**").authenticated()
-//                .anyRequest().permitAll().and()
-//                .csrf().disable();
     }
 
     @Bean
@@ -60,8 +55,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth
                 .userDetailsService(this.userDetailsService)
                 .passwordEncoder(User.PASSWORD_ENCODER);
-//        auth .inMemoryAuthentication()
-//                .withUser("user").password("password").roles("USER");
     }
 
     @Override

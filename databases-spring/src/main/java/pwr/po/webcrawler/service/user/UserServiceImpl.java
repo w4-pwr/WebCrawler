@@ -10,6 +10,7 @@ import pwr.po.webcrawler.model.user.User;
 import pwr.po.webcrawler.repository.user.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements  UserService ,UserDetailsService{
@@ -29,6 +30,8 @@ public class UserServiceImpl implements  UserService ,UserDetailsService{
         return userRepository.findOne(id);
     }
 
+    public User getUserByToken(String token) { return userRepository.findByToken(token);    }
+
     public User getUser(String username){
         return userRepository.findByUsername(username);
     }
@@ -45,11 +48,14 @@ public class UserServiceImpl implements  UserService ,UserDetailsService{
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(name);
-        System.out.println(user.getUsername()+" " + user.getPassword());
-        if (user != null) {
+        Optional<User> userOptional = Optional.of(user);
+
+        if (userOptional.isPresent()) {
             return user;
         }else{
             throw new UsernameNotFoundException("User not found");
         }
+
+
     }
 }

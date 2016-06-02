@@ -5,8 +5,10 @@ import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.DelegatingFilterProxy;
+import org.springframework.web.filter.ShallowEtagHeaderFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 
+import javax.servlet.Filter;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
@@ -24,6 +26,8 @@ public class AppInit implements WebApplicationInitializer {
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping("/*");
     }
+
+
 
     private AnnotationConfigWebApplicationContext getContext() {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
