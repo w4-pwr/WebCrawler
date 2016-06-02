@@ -1,11 +1,15 @@
 package pwr.po.webcrawler.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jsoup.nodes.Document;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.internal.exceptions.ExceptionIncludingMockitoWarnings;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -13,13 +17,17 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import parser.WebParser;
 import pwr.po.webcrawler.model.user.User;
 import pwr.po.webcrawler.service.user.UserService;
 import pwr.po.webcrawler.web.controller.UserController;
 import pwr.po.webcrawler.web.dto.UserDTO;
 import pwr.po.webcrawler.web.mapper.UserMapper;
 
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -43,10 +51,40 @@ public class UserControllerTest {
     @Autowired
     ApplicationContext context;
 
+    InputStream parserInput;
+
 
     @Before
     public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(userControllerMock).build();
+        parserInput = this.getClass().getClassLoader().getResourceAsStream("ParserTest.html");
+    }
+
+    @Test
+    public void Parser() throws Exception {
+        StringBuilder contentBuilder = new StringBuilder();
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(parserInput, "UTF-8"));
+            String str;
+            while ((str = in.readLine()) != null) {
+                contentBuilder.append(str);
+            }
+            in.close();
+
+        } catch (IOException e) {}
+        String content = contentBuilder.toString();
+
+        WebParser wp = new WebParser();
+        List<String> parse = wp.parser(content);
+
+        List<String> links = new ArrayList<String>();
+        links.add("http://www.zsk.iiar.pwr.wroc.pl/zsk/dyd/intinz/ptm/ptmlab/");
+        links.add("http://www.zsk.iiar.pwr.wroc.pl/zsk/dyd/intinz/uc/");
+        links.add("http://www.zsk.iiar.pwr.wroc.pl/zsk_ftp/cpld");
+        links.add("http://www.xilinx.com/support/documentation/data_sheets/ds054.pdf");
+        links.add("http://www.computer-engineering.org/ps2protocol/");
+        links.add("http://www.zsk.iiar.pwr.wroc.pl/zsk_ftp/fpga/");
+        Assert.assertThat(parse, is(links));
     }
 
     @Test
@@ -113,6 +151,7 @@ public class UserControllerTest {
         User user = new User();
         user.setToken("token");
         when(userService.getUserByToken("token")).thenReturn(user);
+
 
         mockMvc.perform(put("/user/activate/"+user.getToken()))
                 .andExpect(status().isOk());
