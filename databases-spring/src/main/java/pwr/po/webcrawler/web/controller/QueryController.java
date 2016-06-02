@@ -11,6 +11,7 @@ import pwr.po.webcrawler.service.Query.QueryService;
 import pwr.po.webcrawler.service.user.UserService;
 import pwr.po.webcrawler.web.dto.QueryDTO;
 import pwr.po.webcrawler.web.mapper.QueryMapper;
+import pwr.po.webcrawler.web.request.QueryRequestBody;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -58,19 +59,28 @@ public class QueryController {
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<String> saveQuery(@RequestBody QueryDTO queryDTO)
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<String> saveQuery(@RequestParam("token") String token, @RequestBody QueryRequestBody requestBody)
     {
-        if(queryDTO==null)
-        {
+        if(requestBody==null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        if(queryDTO.getUserId()<0)
-        {
+
+        User user = userService.getUserByToken(token);
+        if(user == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        queryDTO.setAddedDate(new Date());
-        queryService.save(QueryMapper.map(queryDTO));
+
+        Query query = prepareNewQueryForSaving(requestBody, user);
+        queryService.save(query);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private Query prepareNewQueryForSaving(QueryRequestBody requestBody, User user) {
+        Query query = new Query();
+        query.setUser(user);
+        query.setAddedDate(new Date());
+        query.setKeyword(requestBody.getKeyword());
+        return query;
     }
 }
