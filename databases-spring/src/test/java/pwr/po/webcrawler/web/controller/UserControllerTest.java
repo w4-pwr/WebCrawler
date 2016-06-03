@@ -1,4 +1,4 @@
-package pwr.po.webrawler.web.controller;
+package pwr.po.webcrawler.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -23,11 +23,9 @@ import java.util.Arrays;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.matches;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -110,7 +108,29 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$firstName", is("Pierwszy")))
                 .andExpect(jsonPath("$lastName", is("User")));
     }
+    @Test
+    public void activateUser_UserExist() throws Exception {
+        User user = new User();
+        user.setToken("token");
+        when(userService.getUserByToken("token")).thenReturn(user);
 
+        mockMvc.perform(put("/user/activate/"+user.getToken()))
+                .andExpect(status().isOk());
+
+
+
+    }
+
+
+    @Test
+    public void activateUser_UserNot_Exist() throws Exception{
+        User user = new User();
+        user.setToken("Token");
+        when(userService.getUserByToken("tokenek")).thenReturn(user);
+        mockMvc.perform(put("/user/activate/"+user.getToken()))
+                .andExpect(status().isNotFound());
+
+    }
     @Test
     public void save_UserExist() throws Exception {
 

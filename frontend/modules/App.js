@@ -1,11 +1,13 @@
 import React from 'react'
 import MainHeader from './MainHeader'
+import Moment from 'moment'
 
 export default React.createClass({
     render() {
-        return <div className="wrapper hold-transition skin-blue sidebar-mini">
-        <div className="wrapper">
-            <MainHeader />
+        window.backendUrl = 'http://webcrawlerbs.pyphqhigf5.us-west-2.elasticbeanstalk.com/';
+        window.moment = Moment;
+        return <div className="wrapper skin-blue sidebar-mini">
+            <MainHeader app={this} />
             
             {/* Left side column. contains the logo and sidebar */}
             <aside className="main-sidebar">
@@ -31,26 +33,8 @@ export default React.createClass({
             </section>
             {/* /.sidebar */}
             </aside>
-
-            {/* Content Wrapper. Contains page content */}
-            <div className="content-wrapper">
-            {/* Content Header (Page header) */}
-            <section className="content-header">
-              <h1>
-                Page Header
-                <small>Optional description</small>
-              </h1>
-            </section>
-
-            {/* Main content */}
-            <section className="content">
-
-              {/* Your Page Content Here */}
-
-            </section>
-            {/* /.content */}
-            </div>
-            {/* /.content-wrapper */}
+            
+            {this.props.main}
 
             {/* Control Sidebar */}
             <aside className="control-sidebar control-sidebar-dark">
@@ -126,8 +110,6 @@ export default React.createClass({
             {/* Add the sidebar's background. This div must be placed
                immediately after the control sidebar */}
             <div className="control-sidebar-bg"></div>
-
-        </div>
         </div>;
     }
 });
