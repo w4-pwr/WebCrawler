@@ -174,6 +174,7 @@ export default React.createClass({
                     $.ajax({
                         type: 'PUT',
                         url: backendUrl + 'user',
+                        accepts: 'application/json; charset=utf-8',
                         crossorigin: true,
                         data: params
                     });
